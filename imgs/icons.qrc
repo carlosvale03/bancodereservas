@@ -1,0 +1,8 @@
+<RCC>
+  <qresource prefix="icons">
+    <file>deposito.svg</file>
+    <file>svgviewer-output.svg</file>
+    <file>svgviewer-output2.svg</file>
+    <file>tinywow_usuario_10961509.png</file>
+  </qresource>
+</RCC>

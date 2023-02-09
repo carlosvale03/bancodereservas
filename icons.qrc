@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="icons">
+    <file>imgs/svgviewer-output.svg</file>
+    <file>imgs/svgviewer-output2.svg</file>
+  </qresource>
+</RCC>
