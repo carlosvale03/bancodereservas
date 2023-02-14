@@ -27,7 +27,7 @@ class ClientThread(threading.Thread):
 
 
 if __name__ == "__main__":
-    host = '10.180.47.111'#casa: '192.168.1.14' universidade:'10.180.46.65'
+    host = 'localhost'
     port = 8000
     addr = (host, port)
     server = socket.socket(

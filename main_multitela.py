@@ -1,10 +1,8 @@
+from typing import Type
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox
 
-# from cadastro import Cadastro
-# from cliente import Cliente
 from banco_mysql import Banco
-# from conta_mysql import Conta
 
 from random import randint
 
@@ -77,16 +75,124 @@ class Ui_Main(QtWidgets.QWidget):
 
 
 class Main(QMainWindow, Ui_Main):
+    """
+    A classe Main é uma subclasse da classe QMainWindow e da classe Ui_Main. Essa classe é responsável 
+    por implementar a lógica de negócios da aplicação.
+
+    Methods
+    -------
+    request_server(self, request: str):
+        Método responsável por enviar uma solicitação para o servidor e retornar a resposta.
+
+    concatenar(self, string: str):
+        Método que recebe uma string contendo as palavras a serem concatenadas. Concatena as palavras de uma string,
+        separadas por espaços.
+
+    concatenarHis(self, string: str):
+        Concatena as linhas de uma string separadas pelo caractere '\\n'.
+
+    botaoTransferir2(self):
+        Função responsável por transferir um valor para outra conta. Essa função é chamada ao 
+        clicar no botão "Transferir" na tela de transferência. Ela obtém o valor digitado pelo usuário, 
+        o número da conta de destino e a senha do usuário. Em seguida, valida se o valor é numérico e 
+        realiza a solicitação de transferência para o servidor. Se a transação for bem-sucedida, exibe uma 
+        mensagem de sucesso e atualiza o saldo do usuário.
+    
+    botaoSacar2(self):
+        Realiza a operação de saque na conta do usuário, ao inserir um valor e senha.
+
+    botaoDepositar2(self):
+        Realiza a operação de deposito na conta do usuário, ao inserir um valor e senha.
+
+    botaoExcluir2(self):
+        A função representa botão excluir que vai chamar a tela de confirmação 
+        que a conta será excluida
+
+    botaoConfirmar(self):
+        A função representa botão confirmar que a conta será excluida
+
+    botaoVoltaHome(self):
+        Função vai fazer com que o usuário volte para a tela home
+
+    botaoExcluir(self):
+        Função vai redirecionar para tela de excluir login
+
+    botaoHistorico(self):
+        Atualiza a tela de histórico de transações com as informações da conta especificada.
+
+    botaoTransferencia(self):
+        Limpa os campos de valor e senha na tela de transferência e muda a exibição para a tela de transferência.
+
+    botaoSacar(self):
+        Limpa os campos de valor e senha na tela de saque e muda a exibição para a tela de saque.
+
+    botaoDepositar(self):
+        Limpa os campos de valor e senha na tela de deposito e muda a exibição para a tela de deposito.
+
+    botaoSair(self):
+        Função vai fazer com que o usuário saia do banco.
+
+    atualizaSaldo(self):
+        Função para atalizar o saldo que é mostrado na tela Home sempre que o botão "ocultar saldo" aparecer.
+
+    botaoVerSaldo(self):
+        Função para alterar o botão "ver saldo" para "ocultar saldo" e vice versa. 
+        Essa função também vai mostrar e ocultar o saldo, dependendo da condição.
+
+    abrirHomeConta(self, usuario: bool, senha: bool):
+        Verifica as credenciais de login do usuário e abre a tela principal se o login for bem-sucedido.
+
+    abrirTelaCadastro(self):
+        Função para abrir tela de cadastro a partir do botão "cadastrar" na tela de login.
+    
+    sorteiaNum(self):
+        Função para sortear numero aleatorio entre 100 e 1000 para as contas.
+
+    botaoCadastra(self):
+        Função para conferir dados passados pelo usuario e cadastra-lo no banco.
+
+    botaoVoltar(self):
+        Função para voltar para tela de login.
+
+
+    Slots
+    -----
+    Os seguintes Slots são utilizados para conectar os botões das telas com as funções correspondentes:
+        - abrirHomeConta
+        - abrirTelaCadastro
+        - botaoCadastra
+        - botaoVoltar
+        - botaoVerSaldo
+        - botaoSair
+        - botaoDepositar
+        - botaoSacar
+        - botaoTransferencia
+        - botaoHistorico
+        - botaoExcluir
+        - botaoVoltaHome
+        - botaoExcluir2
+        - botaoConfirmar
+        - botaoDepositar2
+        - botaoSacar2
+        - botaoTransferir2
+
+        Cada slot é responsável por executar uma determinada ação quando o botão correspondente é clicado. As ações
+        executadas pelos slots incluem a exibição das telas, a realização das operações bancárias, e o envio de
+        solicitações ao servidor.
+    """
     def __init__(self):
+        """
+        Método construtor da classe. É responsável por inicializar os atributos da classe. Além disso, cria uma instância
+        da classe Banco, que será utilizada para fazer as operações bancárias. Também tenta se conectar com o servidor
+        através da função servidor_cliente, e exibe uma mensagem de erro caso a conexão não seja bem sucedida.
+        """
         super(Main, self).__init__(None)
         self.setupUi(self)
 
         self.banco = Banco()
-        # self.Conta = Conta()
-        # self.lista = []
 
         try:
-            self.server = servidor_cliente('10.180.47.111', 8000) #ufpi: 10.180.46.65 casa: 192.168.1.14
+            self.server = servidor_cliente('localhost', 8000)
         except ConnectionRefusedError:
             QtWidgets.QMessageBox.information(None, 'ERROR', f'Não foi possível conectar ao servidor.'
                                                              f'\nVerifique a conexão e tente novamente')
@@ -134,6 +240,21 @@ class Main(QMainWindow, Ui_Main):
             self.botaoTransferir2)
 
     def request_server(self, request):
+        '''
+        Função responsável por enviar uma solicitação para o servidor e retornar a resposta.
+
+        Parameters
+        ----------
+        request : str
+            Uma string que contém o método e os parâmetros da solicitação.
+
+        Returns
+        -------
+        list
+            Uma lista que contém os resultados da solicitação. A primeira posição é um booleano que indica se a 
+            solicitação foi bem sucedida ou não. A segunda posição pode conter uma string com informações adicionais 
+            dependendo da função do banco.
+        '''
         self.server.send(request.encode())
         recv = self.server.recv(2048)
         flag = recv.decode()
@@ -142,12 +263,38 @@ class Main(QMainWindow, Ui_Main):
         return flag
 
     def concatenar(self, string):
+        '''
+        Concatena as palavras de uma string, separadas por espaços.
+
+        Parameters
+        ----------
+        string : str
+            Uma string contendo as palavras a serem concatenadas.
+
+        Returns
+        -------
+        str
+            Uma string com as palavras concatenadas.
+        '''
         noti = ''
         for i in range(1, len(string)):
             noti += string[i] + " "
         return noti
 
     def concatenarHis(self, string):
+        '''
+        Concatena as linhas de uma string separadas pelo caractere '\\n'.
+
+        Parameters
+        ----------
+        string : str
+            Uma string contendo as linhas a serem concatenadas.
+
+        Returns
+        -------
+        str
+            Uma string com as linhas concatenadas e separadas por '\\n'.
+        '''
         noti = ''
         for i in range(len(string)):
             noti += string[i] + ' '
@@ -158,6 +305,24 @@ class Main(QMainWindow, Ui_Main):
         return a
 
     def botaoTransferir2(self):
+        '''
+        Função responsável por transferir um valor para outra conta. Essa função é chamada ao 
+        clicar no botão "Transferir" na tela de transferência. Ela obtém o valor digitado pelo usuário, 
+        o número da conta de destino e a senha do usuário. Em seguida, valida se o valor é numérico e 
+        realiza a solicitação de transferência para o servidor. Se a transação for bem-sucedida, exibe uma 
+        mensagem de sucesso e atualiza o saldo do usuário.
+
+        ...
+        Parameters
+        ----------
+            valor(str): valor da transferência
+            numDestino(str): número da conta de destino
+            senha(str): senha da conta
+
+        Return:
+            None.
+
+        '''
         valor = self.tela_transferir.txt_valor.text()
         numDestino = self.tela_transferir.txt_destino.text()
         senha = self.tela_transferir.txt_senha.text()
@@ -195,6 +360,15 @@ class Main(QMainWindow, Ui_Main):
                 None, 'POOII', 'Todos os campos devem ser preenchidos!')
 
     def botaoSacar2(self):
+        '''
+        Realiza a operação de saque na conta do usuário, ao inserir um valor e senha.
+
+        Parameters
+        ----------
+            valor(str): valor do saque
+            senha(str): senha da conta
+
+        '''
         valor = self.tela_sacar.txt_valor.text()
         senha = self.tela_sacar.txt_senha.text()
         try:
@@ -231,6 +405,15 @@ class Main(QMainWindow, Ui_Main):
                 None, 'POOII', 'Todos os campos devem ser preenchidos!')
 
     def botaoDepositar2(self):
+        '''
+        Realiza a operação de deposito na conta do usuário, ao inserir um valor e senha.
+
+        Parameters
+        ----------
+            valor(str): valor do deposito
+            senha(str): senha da conta
+
+        '''
         valor = self.tela_depositar.txt_valor.text()
         senha = self.tela_depositar.txt_senha_2.text()
         try:
@@ -274,6 +457,17 @@ class Main(QMainWindow, Ui_Main):
     # funções para confirmação da exclusão de conta
 
     def botaoExcluir2(self):
+        '''
+        A função representa botão excluir que vai chamar a tela de confirmação 
+        que a conta será excluida
+
+        ...
+        Parameters
+        ----------
+            senha(str): senha do usuário
+            numero(str): número da conta
+
+        '''
         senha = self.tela_excluir.txt_senha.text()
         numero = self.tela_home.txt_numero.text()
         if not senha == '':
@@ -290,6 +484,18 @@ class Main(QMainWindow, Ui_Main):
                 None, 'POOII', 'Todos os campos devem ser preenchidos!')
 
     def botaoConfirmar(self):
+        '''
+        A função representa botão confirmar que a conta será excluida
+
+        Parameters
+        ----------
+            numero(str): número da conta
+            solict(str): vai pegar uma string contendo o metodo e os atributos que serão passados para o servidor
+            flag(list): vai verificar qual foi a solicitação e receber valor booleano na primeira posição e uma 
+            string na segunda
+            noti(str): vai receber a notificação que será retornada na variavel flag e concatenada
+
+        '''
         numero = self.tela_home.txt_numero.text()
         solicit = f'excluir*{numero}'
         flag = self.request_server(solicit)
@@ -304,12 +510,25 @@ class Main(QMainWindow, Ui_Main):
     # funções para navegar entre a tela Home e suas subtelas
 
     def botaoVoltaHome(self):
+        '''Função vai fazer com que o usuário volte para a tela home'''
         self.QtStack.setCurrentIndex(2)
 
     def botaoExcluir(self):
+        '''Função vai redirecionar para tela de excluir login'''
         self.QtStack.setCurrentIndex(7)
 
     def botaoHistorico(self):
+        '''
+        Atualiza a tela de histórico de transações com as informações da conta especificada.
+
+        Parameters
+        ----------
+            numero(str): número da conta
+            solict(str): vai pegar uma string contendo o metodo e os atributos que serão passados para o servidor
+            flag(list): vai verificar qual foi a solicitação e receber valor booleano na primeira posição e 
+            uma string na segunda
+            noti(str): vai receber a notificação que será retornada na variavel flag e concatenada
+        '''
         numero = self.tela_home.txt_numero.text()
         solicit = f'pega_hist*{numero}'
         flag = self.request_server(solicit)
@@ -318,26 +537,48 @@ class Main(QMainWindow, Ui_Main):
         self.QtStack.setCurrentIndex(6)
 
     def botaoTransferencia(self):
+        '''
+        Limpa os campos de valor e senha na tela de transferência e muda a exibição para a tela de transferência.
+        '''
         self.tela_transferir.txt_valor.setText('')
         self.tela_transferir.txt_senha.setText('')
         self.QtStack.setCurrentIndex(5)
 
     def botaoSacar(self):
+        '''
+        Limpa os campos de valor e senha na tela de saque e muda a exibição para a tela de saque.
+        '''
         self.tela_sacar.txt_valor.setText('')
         self.tela_sacar.txt_senha.setText('')
         self.QtStack.setCurrentIndex(4)
 
     def botaoDepositar(self):
+        '''
+        Limpa os campos de valor e senha na tela de deposito e muda a exibição para a tela de deposito.
+        '''
         self.tela_depositar.txt_valor.setText('')
         self.tela_depositar.txt_senha_2.setText('')
         self.QtStack.setCurrentIndex(3)
 
     def botaoSair(self):
+        '''
+        Função vai fazer com que o usuário saia do banco.
+        '''
         self.QtStack.setCurrentIndex(0)
 
     # função para atalizar o saldo que é mostrado na tela Home
 
     def atualizaSaldo(self):
+        '''
+        Função para atalizar o saldo que é mostrado na tela Home sempre que o botão "ocultar saldo" aparecer.
+
+        Parameters
+        ----------
+            numero(str): número da conta
+            solict(str): vai pegar uma string contendo o metodo e os atributos que serão passados para o servidor
+            flag(list): vai verificar qual foi a solicitação e receber valor booleano na primeira posição e 
+            uma string na segunda
+        '''
         if self.tela_home.url_verSaldo == ("\n"
                                            "\n"
                                            "QPushButton{\n"
@@ -356,6 +597,10 @@ class Main(QMainWindow, Ui_Main):
 
     # função para utilizar o botao de ver e ocultar o saldo
     def botaoVerSaldo(self):
+        '''
+        Função para alterar o botão "ver saldo" para "ocultar saldo" e vice versa. 
+        Essa função também vai mostrar e ocultar o saldo, dependendo da condição.
+        '''
         _translate = QtCore.QCoreApplication.translate
         if self.tela_home.url_verSaldo == ("\n"
                                            "\n"
@@ -414,14 +659,24 @@ class Main(QMainWindow, Ui_Main):
                 "MainWindow", "<html><head/><body><p>Ver saldo</p></body></html>"))
             self.tela_home.txt_saldo.setText("")
 
-    # função para conferir usuario e senha e entrar na pagina Home do banco atraves do botao login
+    
     def abrirHomeConta(self, usuario=False, senha=False):
+        '''
+        Verifica as credenciais de login do usuário e abre a tela principal se o login for bem-sucedido.
+
+        Parameters
+        ----------
+            usuario (bool): Nome de usuário do cliente (opcional). Se não for especificado, 
+            o nome de usuário da caixa de texto da tela inicial será usado.
+            senha (bool): Senha do cliente (opcional). Se não for especificado, a senha da 
+            caixa de texto da tela inicial será usada.
+
+        Return:
+            None.
+        '''
         if usuario == False and senha == False:
             usuario = self.tela_inicial.txt_usuario.text()
             senha = self.tela_inicial.txt_senha.text()
-            # if not(usuario == '' or senha == ''):
-            #     solicit_user = usuario
-            #     self.request_server(solicit_user)
         if not(usuario == '' or senha == ''):
             solicit = f'login*{usuario}*{senha}'
             flag = self.request_server(solicit)
@@ -442,20 +697,52 @@ class Main(QMainWindow, Ui_Main):
             QMessageBox.information(
                 None, 'POOII', 'Todos os campos devem ser preenchidos!')
 
-    # função para abrir tela de cadastro a partir do botão "cadastrar" na tela de login
+
     def abrirTelaCadastro(self):
+        '''
+        Função para abrir tela de cadastro a partir do botão "cadastrar" na tela de login.
+        '''
         self.QtStack.setCurrentIndex(1)
 
-    # função para sortear numero aleatorio entre 100 e 1000 para as contas
+    
     def sorteiaNum(self):
+        '''
+        Função para sortear numero aleatorio entre 100 e 1000 para as contas.
+
+        Parameters
+        ----------
+            num(int): Variável representa um número que será sorteado.
+
+        Return:
+            Número que foi sorteado.
+        '''
         num = randint(100, 1000)
         if not num in self.lista:
             self.lista.append(num)
             return num
         self.sorteiaNum()
 
-    # função para conferir dados passados pelo usuario e cadastra-lo no banco
+
     def botaoCadastra(self):
+        '''
+        Função para conferir dados passados pelo usuario e cadastra-lo no banco.
+
+        Parameters
+        ----------
+            usuario(str): Nome de usuário.
+            senha(str): Senha do usuário.
+            nome(str): Nome do usuário.
+            sobrenome(str): Sobrenome do usuário.
+            cpf(str): CPF do usuário.
+
+        Return:
+            None.
+
+        Examples:
+            Se o usuário tiver digitado todos os dados obrigatórios para o cadastro, a função vai 
+            fazer as verificações necessárias e se tudo der certo o usuário já vai ter acesso a 
+            página home do banco. Se não der certo a função vai informar ao usuário os erros que ele cometeu.
+        '''
         usuario = self.tela_cadastrar.txt_usuario.text()
         senha = self.tela_cadastrar.txt_senha.text()
         nome = self.tela_cadastrar.txt_nome.text()
@@ -484,6 +771,9 @@ class Main(QMainWindow, Ui_Main):
                 None, 'POOII', 'Todos os campos devem ser preenchidos!')
 
     def botaoVoltar(self):
+        '''
+        Função para voltar para tela de login.
+        '''
         self.QtStack.setCurrentIndex(0)
 
 

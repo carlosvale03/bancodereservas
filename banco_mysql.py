@@ -13,12 +13,13 @@ class Banco:
 
     Atributos
     ---------
-    conexao : mysql connector
-    sql : cursor
+    conexao : mysql.connector
+    cursor : cursor
+    sql : str
     confereTrans : int
-    sincroniza : 
+    sincroniza : threading.Lock
     '''
-    __slots__ = ["conexao", "cursor", "sql", "_confereTrans", "sincroniza"]
+    __slots__ = ["conexao", "cursor", "sql", "_confereTrans", "sincroniza", "numero"]
 
     def __init__(self):
         self.conexao = mysql.connector.connect(
@@ -42,7 +43,7 @@ class Banco:
         """
         Fecha a conexão com o banco de dados.
 
-        Parametros
+        Parameters
         ----------
         con : objeto de conexão do banco de dados
             A conexão que será fechada.
@@ -57,7 +58,7 @@ class Banco:
         """
         Registra um novo usuário no sistema, com as informações fornecidas.
 
-        Parametros
+        Parameters
         ----------
         usuario : str
             Nome de usuário do novo usuário
@@ -79,6 +80,7 @@ class Banco:
             O booleano indica se o cadastro foi realizado com sucesso ou não. 
             A mensagem de status contém informações adicionais sobre o resultado do cadastro.
         """
+        self.sincroniza.acquire()
         try:
             self.cursor.execute(self.sql)
         except mysql.connector.Error as e:
@@ -105,14 +107,14 @@ class Banco:
         A função realiza o login de um usuário de acordo com as informações fornecidas.
 
         ...
-        Parâmetros
+        Parameters
         ---------
             usuario : str 
                 O nome do usuário
             senha : str 
                 A senha do usuário
 
-        Retorno:
+        Returns
         --------
             Se as formações fornecidas forem válidas, a função vai retornar um valor booleano True e um object tupla como com informações da conta do usuário.
             Se não retorna uma tupla com valor booleano False e uma mensagem de erro.
@@ -131,7 +133,7 @@ class Banco:
         """
         Verifica se a senha é válida para um determinado número de conta.
 
-        Parametros
+        Parameters
         ----------
         senha : str
             A senha a ser verificada.
@@ -156,7 +158,7 @@ class Banco:
         """
         Verifica se um usuário ou um usuário e senha são válidos.
 
-        Parametros
+        Parameters
         ----------
         usuario : str
             O nome de usuário a ser verificado.
@@ -195,7 +197,7 @@ class Banco:
         """
         Verifica se o número existe no banco de dados.
 
-        Parametros
+        Parameters
         ----------
         numero : int
             O número da conta cuja será verificado.
@@ -217,7 +219,7 @@ class Banco:
         """
         Verifica se o cpf existe no banco de dados.
 
-        Parametros
+        Parameters
         ----------
         cpf : str
             O cpf que será verificado.
@@ -238,7 +240,7 @@ class Banco:
         """
         Atualiza o histórico de transações de uma determinada conta.
 
-        Parametros
+        Parameters
         ----------
         numero : int
             O número da conta cujo histórico será atualizado.
@@ -258,7 +260,7 @@ class Banco:
         """
         Retorna o histórico de transações de uma determinada conta.
 
-        Parametros
+        Parameters
         ----------
         numero : int
             O número da conta cujo histórico será retornado.
@@ -277,7 +279,7 @@ class Banco:
         """
         Retorna o saldo e limite do usuário, buscando pelo número da conta.
 
-        Parametros
+        Parameters
         ----------
         numero : int
             Número da conta do usuário.
@@ -300,7 +302,7 @@ class Banco:
         """
         Atualiza o saldo do usuário, acrescentando ou subtraindo o valor passado como parâmetro.
 
-        Parametros
+        Parameters
         ----------
         numero : int
             Número da conta do usuário.
@@ -328,7 +330,7 @@ class Banco:
         """
         Realiza um depósito na conta com o número informado.
 
-        Parametros
+        Parameters
         ----------
         numero : int
             Número da conta na qual será realizado o depósito.
@@ -380,7 +382,7 @@ class Banco:
         """
         Realiza uma operação de saque na conta corrente.
         
-        Parametros
+        Parameters
         ----------
         numero : int
             Número da conta corrente do usuário.
@@ -418,9 +420,42 @@ class Banco:
                 return True, "Saque realizado com sucesso."
             return False, "Senha invalida."
 
-    # Função para fazer transferencia de uma conta para outra: Essa função retornará True se
-    # a transação ocorrer ou False se der algum problema na transferencia
+    
     def transfere(self, numero, senha, destino, valor):
+        """
+        Realiza uma transferência da conta com o número informado para a conta de destino.
+
+        Parameters
+        ----------
+        numero : int
+            Número da conta que será usada para realizar a transferência.
+        senha : str
+            Senha da conta que será usada para realizar a transferência.
+        destino : int
+            Número da conta de destino para onde o valor será transferido.
+        valor : float
+            Valor a ser transferido da conta de origem para a conta de destino.
+
+        Returns
+        -------
+        tuple
+            Um tuple contendo um booleano e uma mensagem de status. O booleano indica se a transferência foi realizada 
+            com sucesso ou não. A mensagem de status contém informações adicionais sobre o resultado da transferência.
+
+        Notes
+        -----
+        A variável `confereTrans` é usada para conferir se a função foi chamada a partir da função de transferência 
+        (`self.confereTrans == 1`) ou é um depósito normal (`self.confereTrans == 0`).
+
+        Raises
+        ------
+        ValueError
+            Se o valor informado for menor que 0.01.
+        ValueError
+            Se o saldo atual da conta for menor que o valor a ser transferido.
+        ValueError
+            Se a conta de destino não consta na base de dados.
+        """
         valor = float(valor)
         self.confereTrans = 1
         if self.verificarNumero(destino):
@@ -450,37 +485,34 @@ class Banco:
         his = f'{datetime.datetime.today().strftime("DATA: %d/%m/%Y - HORA: %H:%M")}: Tirou extrato - saldo R${saldo}\n'
         self.atualiza_hist(numero, his)
 
-    def cadastra_bd(self, usuario, senha, numero, titular, saldo, limite, conta):
-        self.sincroniza.acquire()
-        sql = "INSERT INTO contas (numero, usuario, senha, titular, cpf, saldo, limite, obj_conta) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
-        valores = (numero, usuario, senha, titular.nome +
-                   " " + titular.sobrenome, titular.cpf, saldo, limite, conta)
-        self.cursor.execute(sql, valores)
-        self.conexao.commit()
-        self.fechar_conexao(self.conexao)
-        return True
+    # def cadastra_bd(self, usuario, senha, numero, titular, saldo, limite, conta):
+    #     self.sincroniza.acquire()
+    #     sql = "INSERT INTO contas (numero, usuario, senha, titular, cpf, saldo, limite, obj_conta) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+    #     valores = (numero, usuario, senha, titular.nome +
+    #                " " + titular.sobrenome, titular.cpf, saldo, limite, conta)
+    #     self.cursor.execute(sql, valores)
+    #     self.conexao.commit()
+    #     self.fechar_conexao(self.conexao)
+    #     return True
 
-    def operacoes(self, numero):
-        for i in self.lista:
-            if i.numero == numero:
-                return i
-
-    def busca_contas(self, usuario):
-        for i in self.lista:
-            if i.usuario == usuario:
-                return i
-        return False
-
-    def busca_contas_num(self, numero):
-        for i in self.lista:
-            if i.numero == numero:
-                return i
-        return False
 
     def busca_usuario(self, usuario, senha):
-        # nessa função, se o usuario e a senha forem encontrados vai retornar True
-        # se a senha estiver errada vai retornar None e caso o usuario não for
-        # encontrado ira retornar False
+        """
+        Busca por um usuário na base de dados e verifica se a senha está correta.
+
+        Parameters
+        ----------
+        usuario : str
+            Nome do usuário que deseja procurar.
+        senha : str
+            Senha do usuário que deseja procurar.
+
+        Returns
+        -------
+        bool or None
+            Se o usuário e a senha forem encontrados, retorna True. Se a senha estiver incorreta, retorna None.
+            Caso o usuário não seja encontrado na base de dados, retorna False.
+        """
         self.cursor.execute(self.sql)
         sql = f"SELECT * FROM usuarios"
         self.cursor.execute(sql)
@@ -493,6 +525,29 @@ class Banco:
         return False
 
     def excluir(self, numero):
+        """
+        Exclui a conta com o número informado.
+
+        Parameters
+        ----------
+        numero : int
+            Número da conta a ser excluída.
+
+        Returns
+        -------
+        tuple
+            Um tuple contendo um booleano e uma mensagem de status. O booleano indica se a conta foi excluída com sucesso ou não.
+            A mensagem de status contém informações adicionais sobre o resultado da operação.
+
+        Notes
+        -----
+        A exclusão de uma conta é uma operação irreversível. É importante verificar se o número da conta informado é válido
+        e se a operação deve ser realmente realizada.
+
+        Raises
+        ------
+        None
+        """
         self.sincroniza.acquire()
         sql = f"DELETE FROM usuarios WHERE numero = {numero};"
         self.cursor.execute(sql)
