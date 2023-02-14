@@ -8,9 +8,19 @@ import threading
 
 
 class Banco:
+    '''
+    Essa é uma classe que representa o banco.
+
+    Atributos
+    ---------
+    conexao : mysql connector
+    sql : cursor
+    confereTrans : int
+    sincroniza : 
+    '''
+    __slots__ = ["conexao", "cursor", "sql", "_confereTrans", "sincroniza"]
+
     def __init__(self):
-        # self.conexao = self.criar_conexao(
-        #     "127.0.0.1", "root", "Ch,123,carlao", "db_banco")
         self.conexao = mysql.connector.connect(
             host='127.0.0.1', db='db_banco', user='root', password='Ch,123,carlao', autocommit=True)
         self.cursor = self.conexao.cursor()
@@ -28,17 +38,47 @@ class Banco:
     def confereTrans(self, valor):
         self._confereTrans = valor
 
-        # carlos = Conta("carlos", "123", 100, Cliente("Carlos", "Vale", "123"), 100.0).cadastra()
-        # eduardo = Conta("dudu", "321", 101, Cliente("Eduardo", "Sousa", "321"), 100.0).cadastra()
-
-    def criar_conexao(self, host, usuario, senha, banco):
-        return mysql.connector.connect(host=host, user=usuario, password=senha, database=banco, autocommit=True)
-
     def fechar_conexao(self, con):
+        """
+        Fecha a conexão com o banco de dados.
+
+        Parametros
+        ----------
+        con : objeto de conexão do banco de dados
+            A conexão que será fechada.
+
+        Returns
+        -------
+        None
+        """
         return con.close()
 
     def cadastra(self, usuario, senha, nome, cpf, saldo=0.0, limite=1000.00):
-        # tratamento de erro para criar tabela usuarios
+        """
+        Registra um novo usuário no sistema, com as informações fornecidas.
+
+        Parametros
+        ----------
+        usuario : str
+            Nome de usuário do novo usuário
+        senha : str
+            Senha do novo usuário
+        nome : str
+            Nome do novo usuário
+        cpf : str
+            CPF do novo usuário
+        saldo : float, opcional
+            Saldo inicial da conta do novo usuário (padrão é 0.0)
+        limite : float, opcional
+            Limite de crédito da conta do novo usuário (padrão é 1000.00)
+
+        Returns
+        -------
+        tuple
+            Um tuple contendo um booleano e uma mensagem de status. 
+            O booleano indica se o cadastro foi realizado com sucesso ou não. 
+            A mensagem de status contém informações adicionais sobre o resultado do cadastro.
+        """
         try:
             self.cursor.execute(self.sql)
         except mysql.connector.Error as e:
@@ -61,6 +101,23 @@ class Banco:
             return False, 'CPF já está cadastrado.'
 
     def login(self, usuario, senha):
+        '''
+        A função realiza o login de um usuário de acordo com as informações fornecidas.
+
+        ...
+        Parâmetros
+        ---------
+            usuario : str 
+                O nome do usuário
+            senha : str 
+                A senha do usuário
+
+        Retorno:
+        --------
+            Se as formações fornecidas forem válidas, a função vai retornar um valor booleano True e um object tupla como com informações da conta do usuário.
+            Se não retorna uma tupla com valor booleano False e uma mensagem de erro.
+
+        '''
         verifica = self.verificarUsuario(usuario, senha, False)
         if verifica[0]:
             self.cursor.execute(
@@ -71,6 +128,21 @@ class Banco:
             return verifica
 
     def verificaSenha(self, senha, numero):
+        """
+        Verifica se a senha é válida para um determinado número de conta.
+
+        Parametros
+        ----------
+        senha : str
+            A senha a ser verificada.
+        numero : int
+            O número da conta cuja senha será verificada.
+
+        Returns
+        -------
+        tuple
+            Uma tupla contendo um valor booleano que indica se a senha é válida e uma mensagem de status.
+        """
         self.cursor.execute(
             f'select usuario from usuarios where numero = {numero}')
         verifica = self.cursor.fetchall()
@@ -81,7 +153,28 @@ class Banco:
             return False, "Senha incorreta"
 
     def verificarUsuario(self, usuario, senha=None, usuarioSenha=True):
-        # se usuarioSenha for True é pq vem da funcao da cadastro do usuario
+        """
+        Verifica se um usuário ou um usuário e senha são válidos.
+
+        Parametros
+        ----------
+        usuario : str
+            O nome de usuário a ser verificado.
+        senha : str, optional
+            A senha a ser verificada (padrão é None).
+        usuarioSenha : bool, optional
+            Indica se a verificação será feita apenas no nome de usuário (True) ou se incluirá a senha (False).
+
+        Returns
+        -------
+        se usuarioSenha for True:
+            booleano
+                Um valor booleano que indica se o usuario está cadastrado no banco de dados
+        se usuarioSenha for False:
+            tuple
+                Uma tupla contendo um valor booleano que indica se o usuário ou usuário/senha 
+                são válidos e uma mensagem de status.
+        """
         if usuarioSenha:
             self.cursor.execute(
                 f'SELECT usuario FROM usuarios WHERE usuario = "{usuario}"')
@@ -89,7 +182,6 @@ class Banco:
             if v_existe:
                 return True
             return False
-        # se nao, é pq vem da funcao de login
         else:
             self.cursor.execute(
                 f'SELECT usuario, senha FROM usuarios WHERE usuario = "{usuario}" and senha = MD5("{senha}")')
@@ -98,7 +190,21 @@ class Banco:
                 return True, 'Existe.'
             return False, 'Usuário e/ou senha não cadastrados'
 
+
     def verificarNumero(self, numero):
+        """
+        Verifica se o número existe no banco de dados.
+
+        Parametros
+        ----------
+        numero : int
+            O número da conta cuja será verificado.
+
+        Returns
+        -------
+        booleano
+            Um valor booleano que indica se o número existe ou não no banco de dados.
+        """
         self.cursor.execute(
             f'SELECT numero FROM usuarios WHERE numero = "{numero}"')
         verifica = self.cursor.fetchall()
@@ -108,6 +214,19 @@ class Banco:
             return False
 
     def verificarCPF(self, cpf):
+        """
+        Verifica se o cpf existe no banco de dados.
+
+        Parametros
+        ----------
+        cpf : str
+            O cpf que será verificado.
+
+        Returns
+        -------
+        booleano
+            Um valor booleano que indica se o cpf existe ou não no banco de dados.
+        """
         self.cursor.execute(f'SELECT cpf FROM usuarios WHERE cpf = "{cpf}"')
         verifica = self.cursor.fetchall()
         if verifica:
@@ -116,18 +235,59 @@ class Banco:
             return False
 
     def atualiza_hist(self, numero, his):
+        """
+        Atualiza o histórico de transações de uma determinada conta.
+
+        Parametros
+        ----------
+        numero : int
+            O número da conta cujo histórico será atualizado.
+        his : str
+            A transação a ser adicionada ao histórico.
+
+        Returns
+        -------
+        None
+        """
         hist = self.pega_hist(numero)
         his = hist[0][0] + his
         self.cursor.execute(
             f'update usuarios set historico = "{his}" where numero = {numero}')
 
     def pega_hist(self, numero):
+        """
+        Retorna o histórico de transações de uma determinada conta.
+
+        Parametros
+        ----------
+        numero : int
+            O número da conta cujo histórico será retornado.
+
+        Returns
+        -------
+        list
+            Uma lista contendo o histórico de transações.
+        """
         self.cursor.execute(
             f'select historico from usuarios where numero = {numero}')
         x = self.cursor.fetchall()
         return x
 
     def pega_saldo(self, numero):
+        """
+        Retorna o saldo e limite do usuário, buscando pelo número da conta.
+
+        Parametros
+        ----------
+        numero : int
+            Número da conta do usuário.
+
+        Returns
+        -------
+        list
+            Lista contendo duas tuplas, sendo a primeira referente ao saldo e a segunda ao limite.
+            Caso o número da conta seja inválido, retorna False.
+        """
         self.cursor.execute(
             f'select saldo, limite from usuarios where numero = {numero}')
         flag = self.cursor.fetchall()
@@ -137,6 +297,22 @@ class Banco:
             return False
 
     def atualiza_saldo(self, numero, valor, operacao=True):
+        """
+        Atualiza o saldo do usuário, acrescentando ou subtraindo o valor passado como parâmetro.
+
+        Parametros
+        ----------
+        numero : int
+            Número da conta do usuário.
+        valor : float
+            Valor a ser acrescentado ou subtraído do saldo do usuário.
+        operacao : bool, optional
+            Indica se a operação é de depósito (True) ou de saque (False). O valor padrão é True.
+
+        Returns
+        -------
+        None
+        """
         saldo = self.pega_saldo(numero)
         if operacao:  # se a operação for true é pq vem da funcao deposito, se nao é pq vem da funcao saque
             valor += saldo[0][0]
@@ -145,16 +321,44 @@ class Banco:
         self.cursor.execute(
             f'update usuarios set saldo = {valor} where numero = {numero}')
 
+    
     # antiga classe conta
 
     def depositar(self, numero, valor):
+        """
+        Realiza um depósito na conta com o número informado.
+
+        Parametros
+        ----------
+        numero : int
+            Número da conta na qual será realizado o depósito.
+        valor : float
+            Valor a ser depositado na conta.
+
+        Returns
+        -------
+        tuple
+            Um tuple contendo um booleano e uma mensagem de status. O booleano indica se o depósito foi realizado 
+            com sucesso ou não. A mensagem de status contém informações adicionais sobre o resultado do depósito.
+
+        Notes
+        -----
+        A variável `confereTrans` serve para conferir se a função foi chamada a partir da função de transferência 
+        (`self.confereTrans == 1`) ou é um depósito normal (`self.confereTrans == 0`).
+
+        Raises
+        ------
+        ValueError
+            Se o valor informado for menor que 0.01.
+        ValueError
+            Se o saldo atual da conta mais o valor do depósito ultrapassar o limite da conta.
+        """
         valor = float(valor)
         # a variavel saldo vai conter o saldo atual e o limite da conta
         saldo = self.pega_saldo(numero)
         if self.confereTrans == 0:
             self.sincroniza.acquire()
         if valor >= 0.01 and (float(saldo[0][0]) + valor <= float(saldo[0][1])):
-            # ANTIGA FUNÇÃO DE DEPOSITO
             self.atualiza_saldo(numero, valor)
             if self.confereTrans == 0:
                 if saldo:
@@ -171,9 +375,27 @@ class Banco:
                 self.confereTrans = 0
             return False, "Não foi possível fazer o deposito."
 
-    # Função para fazer saque de um valor na conta: Essa função retornará True se
-    # a transação ocorrer ou False se der algum problema no saque
+    
     def sacar(self, numero, valor, senha):
+        """
+        Realiza uma operação de saque na conta corrente.
+        
+        Parametros
+        ----------
+        numero : int
+            Número da conta corrente do usuário.
+        valor : float
+            Valor do saque a ser realizado.
+        senha : str
+            Senha do usuário para autenticação.
+
+        Returns
+        -------
+        tuple
+            Um tuple contendo um booleano e uma mensagem de status. O booleano indica se a operação de saque 
+            foi realizada com sucesso ou não. A mensagem de status contém informações adicionais sobre o resultado 
+            da operação.
+        """
         valor = float(valor)
         saldo = self.pega_saldo(numero)
         self.sincroniza.acquire()

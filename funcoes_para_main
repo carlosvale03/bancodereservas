@@ -1,9 +1,0 @@
-# def confereBotao(self):
-#         _translate = QtCore.QCoreApplication.translate
-#         if self.url_verSaldo == ("QPushButton{\n""image: url(banco_interface/imgs/svgviewer-output.svg);\n""}"):
-#             self.url_verSaldo = ("QPushButton{\n""image: url(banco_interface/imgs/svgviewer-output2.svg);\n""}")
-#             self.btn_verSaldo.setStyleSheet(self.url_verSaldo)
-#             self.btn_verSaldo.setToolTip(_translate("MainWindow", "<html><head/><body><p>Ocultar saldo</p></body></html>"))
-#         elif self.url_verSaldo == ("QPushButton{\n""image: url(banco_interface/imgs/svgviewer-output2.svg);\n""}"):
-#             self.url_verSaldo = ("QPushButton{\n""image: url(banco_interface/imgs/svgviewer-output.svg);\n""}")
-#             self.btn_verSaldo.setStyleSheet(self.url_verSaldo)
