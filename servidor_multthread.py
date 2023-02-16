@@ -4,11 +4,19 @@ from banco_mysql import Banco
 
 
 class ClientThread(threading.Thread):
+    """
+    Esta classe representa uma thread para lidar com um cliente conectado ao servidor.
+    """
     def __init__(self, clientAddress, clientsocket):
         threading.Thread.__init__(self)
         self.csocket = clientsocket
 
     def run(self):
+        """
+        Método executado quando a thread é iniciada.
+        Recebe os dados enviados pelo cliente, identifica o método a ser executado e chama a função correspondente
+        na classe Banco. Depois, envia a resposta de volta para o cliente.
+        """
         recebe = ''
         while True:
             # define o tamanho dos pacotes recebidos

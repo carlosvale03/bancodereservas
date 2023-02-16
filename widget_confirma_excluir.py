@@ -12,12 +12,17 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class Page_confirma_excluir(object):
+    """
+    Essa é uma classe para a pagina de confirmação de exclusão
+    """
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(401, 129)
         Form.setMinimumSize(QtCore.QSize(401, 129))
         Form.setMaximumSize(QtCore.QSize(401, 129))
         Form.setStyleSheet("background-color: rgb(221, 221, 221);")
+
+        # Cria um QLabel na janela com texto e formatação específicos
         self.label = QtWidgets.QLabel(Form)
         self.label.setGeometry(QtCore.QRect(70, 30, 261, 20))
         font = QtGui.QFont()
@@ -25,6 +30,8 @@ class Page_confirma_excluir(object):
         self.label.setFont(font)
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setObjectName("label")
+
+        # Cria um QPushButton na janela para confirmar a exclusão
         self.btn_confirma = QtWidgets.QPushButton(Form)
         self.btn_confirma.setGeometry(QtCore.QRect(250, 80, 75, 23))
         self.btn_confirma.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
@@ -62,9 +69,12 @@ class Page_confirma_excluir(object):
         self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line.setObjectName("line")
 
+        # Chama a função retranslateUi para definir os textos dos elementos da janela
         self.retranslateUi(Form)
+        # Conecta sinais de eventos de elementos gráficos a slots (funções)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
+    # é responsável por definir o texto dos widgets em diferentes idiomas, neste caso apenas em português.
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))

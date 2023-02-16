@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>banco_mysql &mdash; banco de reservas 1.0.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            banco de reservas
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">bancodereservas</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">banco de reservas</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">banco_mysql</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for banco_mysql</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">mysql.connector</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+
+
+<div class="viewcode-block" id="Banco"><a class="viewcode-back" href="../banco_mysql.html#banco_mysql.Banco">[docs]</a><span class="k">class</span> <span class="nc">Banco</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Essa é uma classe que representa o banco.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ---------</span>
+<span class="sd">    conexao : mysql.connector</span>
+<span class="sd">    cursor : cursor</span>
+<span class="sd">    sql : str</span>
+<span class="sd">    confereTrans : int</span>
+<span class="sd">    sincroniza : threading.Lock</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;conexao&quot;</span><span class="p">,</span> <span class="s2">&quot;cursor&quot;</span><span class="p">,</span> <span class="s2">&quot;sql&quot;</span><span class="p">,</span> <span class="s2">&quot;_confereTrans&quot;</span><span class="p">,</span> <span class="s2">&quot;sincroniza&quot;</span><span class="p">,</span> <span class="s2">&quot;numero&quot;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conexao</span> <span class="o">=</span> <span class="n">mysql</span><span class="o">.</span><span class="n">connector</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
+            <span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="s1">&#39;db_banco&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="s1">&#39;root&#39;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s1">&#39;Ch,123,carlao&#39;</span><span class="p">,</span> <span class="n">autocommit</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conexao</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;CREATE TABLE IF NOT EXISTS usuarios(cpf char(15) PRIMARY KEY,</span>
+<span class="s2">        titular text NOT NULL, usuario text NOT NULL, senha text NOT NULL, numero integer UNIQUE NOT NULL,</span>
+<span class="s2">        saldo float NOT NULL, limite float NOT NULL, historico text NOT NULL);&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_confereTrans</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sincroniza</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">confereTrans</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_confereTrans</span>
+
+    <span class="nd">@confereTrans</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">confereTrans</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">valor</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_confereTrans</span> <span class="o">=</span> <span class="n">valor</span>
+
+<div class="viewcode-block" id="Banco.fechar_conexao"><a class="viewcode-back" href="../banco_mysql.html#banco_mysql.Banco.fechar_conexao">[docs]</a>    <span class="k">def</span> <span class="nf">fechar_conexao</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">con</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fecha a conexão com o banco de dados.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        con : objeto de conexão do banco de dados</span>
+<span class="sd">            A conexão que será fechada.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">con</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Banco.cadastra"><a class="viewcode-back" href="../banco_mysql.html#banco_mysql.Banco.cadastra">[docs]</a>    <span class="k">def</span> <span class="nf">cadastra</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">usuario</span><span class="p">,</span> <span class="n">senha</span><span class="p">,</span> <span class="n">nome</span><span class="p">,</span> <span class="n">cpf</span><span class="p">,</span> <span class="n">saldo</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">limite</span><span class="o">=</span><span class="mf">1000.00</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Registra um novo usuário no sistema, com as informações fornecidas.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        usuario : str</span>
+<span class="sd">            Nome de usuário do novo usuário</span>
+<span class="sd">        senha : str</span>
+<span class="sd">            Senha do novo usuário</span>
+<span class="sd">        nome : str</span>
+<span class="sd">            Nome do novo usuário</span>
+<span class="sd">        cpf : str</span>
+<span class="sd">            CPF do novo usuário</span>
+<span class="sd">        saldo : float, opcional</span>
+<span class="sd">            Saldo inicial da conta do novo usuário (padrão é 0.0)</span>
+<span class="sd">        limite : float, opcional</span>
+<span class="sd">            Limite de crédito da conta do novo usuário (padrão é 1000.00)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tuple</span>
+<span class="sd">            Um tuple contendo um booleano e uma mensagem de status. </span>
+<span class="sd">            O booleano indica se o cadastro foi realizado com sucesso ou não. </span>
+<span class="sd">            A mensagem de status contém informações adicionais sobre o resultado do cadastro.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sincroniza</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sql</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">mysql</span><span class="o">.</span><span class="n">connector</span><span class="o">.</span><span class="n">Error</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Erro ao criar tabela:&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">verificarCPF</span><span class="p">(</span><span class="n">cpf</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">verificarUsuario</span><span class="p">(</span><span class="n">usuario</span><span class="p">):</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">/%m/%y %H:%M&quot;</span><span class="p">)</span>
+                <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                    <span class="n">numero</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">999</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">verificarNumero</span><span class="p">(</span><span class="n">numero</span><span class="p">):</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">numero</span> <span class="o">=</span> <span class="n">numero</span>
+                        <span class="k">break</span>
+                <span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;INSERT INTO usuarios(cpf, titular, usuario, senha, numero, saldo, limite, historico) VALUES (&quot;</span><span class="si">{</span><span class="n">cpf</span><span class="si">}</span><span class="s1">&quot;, &quot;</span><span class="si">{</span><span class="n">nome</span><span class="si">}</span><span class="s1">&quot;, &quot;</span><span class="si">{</span><span class="n">usuario</span><span class="si">}</span><span class="s1">&quot;, MD5(&quot;</span><span class="si">{</span><span class="n">senha</span><span class="si">}</span><span class="s1">&quot;), </span><span class="si">{</span><span class="n">numero</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">saldo</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">limite</span><span class="si">}</span><span class="s1">, &quot;Data de de abertura: </span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="se">\n\n</span><span class="s1">&quot;)&#39;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;Cadastro realizado com sucesso.&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;Usuário já está cadastrado.&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;CPF já está cadastrado.&#39;</span></div>
+
+<div class="viewcode-block" id="Banco.login"><a class="viewcode-back" href="../banco_mysql.html#banco_mysql.Banco.login">[docs]</a>    <span class="k">def</span> <span class="nf">login</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">usuario</span><span class="p">,</span> <span class="n">senha</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        A função realiza o login de um usuário de acordo com as informações fornecidas.</span>
+
+<span class="sd">        ...</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ---------</span>
+<span class="sd">            usuario : str </span>
+<span class="sd">                O nome do usuário</span>
+<span class="sd">            senha : str </span>
+<span class="sd">                A senha do usuário</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        --------</span>
+<span class="sd">            Se as formações fornecidas forem válidas, a função vai retornar um valor booleano True e um object tupla como com informações da conta do usuário.</span>
+<span class="sd">            Se não retorna uma tupla com valor booleano False e uma mensagem de erro.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">verifica</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">verificarUsuario</span><span class="p">(</span><span class="n">usuario</span><span class="p">,</span> <span class="n">senha</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">verifica</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;select titular, saldo, numero, limite from usuarios where usuario = &quot;</span><span class="si">{</span><span class="n">usuario</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+            <span class="n">resul</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">resul</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">verifica</span></div>
+
+<div class="viewcode-block" id="Banco.verificaSenha"><a class="viewcode-back" href="../banco_mysql.html#banco_mysql.Banco.verificaSenha">[docs]</a>    <span class="k">def</span> <span class="nf">verificaSenha</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">senha</span><span class="p">,</span> <span class="n">numero</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verifica se a senha é válida para um determinado número de conta.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        senha : str</span>
+<span class="sd">            A senha a ser verificada.</span>
+<span class="sd">        numero : int</span>
+<span class="sd">            O número da conta cuja senha será verificada.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tuple</span>
+<span class="sd">            Uma tupla contendo um valor booleano que indica se a senha é válida e uma mensagem de status.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;select usuario from usuarios where numero = </span><span class="si">{</span><span class="n">numero</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">verifica</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+        <span class="n">confirma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">verificarUsuario</span><span class="p">(</span><span class="n">verifica</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">senha</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">confirma</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;Ok&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Senha incorreta&quot;</span></div>
+
+<div class="viewcode-block" id="Banco.verificarUsuario"><a class="viewcode-back" href="../banco_mysql.html#banco_mysql.Banco.verificarUsuario">[docs]</a>    <span class="k">def</span> <span class="nf">verificarUsuario</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">usuario</span><span class="p">,</span> <span class="n">senha</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">usuarioSenha</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verifica se um usuário ou um usuário e senha são válidos.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        usuario : str</span>
+<span class="sd">            O nome de usuário a ser verificado.</span>
+<span class="sd">        senha : str, optional</span>
+<span class="sd">            A senha a ser verificada (padrão é None).</span>
+<span class="sd">        usuarioSenha : bool, optional</span>
+<span class="sd">            Indica se a verificação será feita apenas no nome de usuário (True) ou se incluirá a senha (False).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        se usuarioSenha for True:</span>
+<span class="sd">            booleano</span>
+<span class="sd">                Um valor booleano que indica se o usuario está cadastrado no banco de dados</span>
+<span class="sd">        se usuarioSenha for False:</span>
+<span class="sd">            tuple</span>
+<span class="sd">                Uma tupla contendo um valor booleano que indica se o usuário ou usuário/senha </span>
+<span class="sd">                são válidos e uma mensagem de status.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">usuarioSenha</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;SELECT usuario FROM usuarios WHERE usuario = &quot;</span><span class="si">{</span><span class="n">usuario</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+            <span class="n">v_existe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">v_existe</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;SELECT usuario, senha FROM usuarios WHERE usuario = &quot;</span><span class="si">{</span><span class="n">usuario</span><span class="si">}</span><span class="s1">&quot; and senha = MD5(&quot;</span><span class="si">{</span><span class="n">senha</span><span class="si">}</span><span class="s1">&quot;)&#39;</span><span class="p">)</span>
+            <span class="n">v_existe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">v_existe</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;Existe.&#39;</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;Usuário e/ou senha não cadastrados&#39;</span></div>
+
+
+<div class="viewcode-block" id="Banco.verificarNumero"><a class="viewcode-back" href="../banco_mysql.html#banco_mysql.Banco.verificarNumero">[docs]</a>    <span class="k">def</span> <span class="nf">verificarNumero</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numero</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verifica se o número existe no banco de dados.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        numero : int</span>
+<span class="sd">            O número da conta cuja será verificado.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        booleano</span>
+<span class="sd">            Um valor booleano que indica se o número existe ou não no banco de dados.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;SELECT numero FROM usuarios WHERE numero = &quot;</span><span class="si">{</span><span class="n">numero</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+        <span class="n">verifica</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">verifica</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="Banco.verificarCPF"><a class="viewcode-back" href="../banco_mysql.html#banco_mysql.Banco.verificarCPF">[docs]</a>    <span class="k">def</span> <span class="nf">verificarCPF</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cpf</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verifica se o cpf existe no banco de dados.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        cpf : str</span>
+<span class="sd">            O cpf que será verificado.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        booleano</span>
+<span class="sd">            Um valor booleano que indica se o cpf existe ou não no banco de dados.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;SELECT cpf FROM usuarios WHERE cpf = &quot;</span><span class="si">{</span><span class="n">cpf</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+        <span class="n">verifica</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">verifica</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="Banco.atualiza_hist"><a class="viewcode-back" href="../banco_mysql.html#banco_mysql.Banco.atualiza_hist">[docs]</a>    <span class="k">def</span> <span class="nf">atualiza_hist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numero</span><span class="p">,</span> <span class="n">his</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Atualiza o histórico de transações de uma determinada conta.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        numero : int</span>
+<span class="sd">            O número da conta cujo histórico será atualizado.</span>
+<span class="sd">        his : str</span>
+<span class="sd">            A transação a ser adicionada ao histórico.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">hist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pega_hist</span><span class="p">(</span><span class="n">numero</span><span class="p">)</span>
+        <span class="n">his</span> <span class="o">=</span> <span class="n">hist</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">his</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;update usuarios set historico = &quot;</span><span class="si">{</span><span class="n">his</span><span class="si">}</span><span class="s1">&quot; where numero = </span><span class="si">{</span><span class="n">numero</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Banco.pega_hist"><a class="viewcode-back" href="../banco_mysql.html#banco_mysql.Banco.pega_hist">[docs]</a>    <span class="k">def</span> <span class="nf">pega_hist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numero</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retorna o histórico de transações de uma determinada conta.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        numero : int</span>
+<span class="sd">            O número da conta cujo histórico será retornado.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list</span>
+<span class="sd">            Uma lista contendo o histórico de transações.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;select historico from usuarios where numero = </span><span class="si">{</span><span class="n">numero</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">x</span></div>
+
+<div class="viewcode-block" id="Banco.pega_saldo"><a class="viewcode-back" href="../banco_mysql.html#banco_mysql.Banco.pega_saldo">[docs]</a>    <span class="k">def</span> <span class="nf">pega_saldo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numero</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retorna o saldo e limite do usuário, buscando pelo número da conta.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        numero : int</span>
+<span class="sd">            Número da conta do usuário.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list</span>
+<span class="sd">            Lista contendo duas tuplas, sendo a primeira referente ao saldo e a segunda ao limite.</span>
+<span class="sd">            Caso o número da conta seja inválido, retorna False.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;select saldo, limite from usuarios where numero = </span><span class="si">{</span><span class="n">numero</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">flag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">flag</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">flag</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="Banco.atualiza_saldo"><a class="viewcode-back" href="../banco_mysql.html#banco_mysql.Banco.atualiza_saldo">[docs]</a>    <span class="k">def</span> <span class="nf">atualiza_saldo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numero</span><span class="p">,</span> <span class="n">valor</span><span class="p">,</span> <span class="n">operacao</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Atualiza o saldo do usuário, acrescentando ou subtraindo o valor passado como parâmetro.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        numero : int</span>
+<span class="sd">            Número da conta do usuário.</span>
+<span class="sd">        valor : float</span>
+<span class="sd">            Valor a ser acrescentado ou subtraído do saldo do usuário.</span>
+<span class="sd">        operacao : bool, optional</span>
+<span class="sd">            Indica se a operação é de depósito (True) ou de saque (False). O valor padrão é True.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">saldo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pega_saldo</span><span class="p">(</span><span class="n">numero</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">operacao</span><span class="p">:</span>  <span class="c1"># se a operação for true é pq vem da funcao deposito, se nao é pq vem da funcao saque</span>
+            <span class="n">valor</span> <span class="o">+=</span> <span class="n">saldo</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">valor</span> <span class="o">=</span> <span class="n">saldo</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">valor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;update usuarios set saldo = </span><span class="si">{</span><span class="n">valor</span><span class="si">}</span><span class="s1"> where numero = </span><span class="si">{</span><span class="n">numero</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+    
+    <span class="c1"># antiga classe conta</span>
+
+<div class="viewcode-block" id="Banco.depositar"><a class="viewcode-back" href="../banco_mysql.html#banco_mysql.Banco.depositar">[docs]</a>    <span class="k">def</span> <span class="nf">depositar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numero</span><span class="p">,</span> <span class="n">valor</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Realiza um depósito na conta com o número informado.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        numero : int</span>
+<span class="sd">            Número da conta na qual será realizado o depósito.</span>
+<span class="sd">        valor : float</span>
+<span class="sd">            Valor a ser depositado na conta.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tuple</span>
+<span class="sd">            Um tuple contendo um booleano e uma mensagem de status. O booleano indica se o depósito foi realizado </span>
+<span class="sd">            com sucesso ou não. A mensagem de status contém informações adicionais sobre o resultado do depósito.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        A variável `confereTrans` serve para conferir se a função foi chamada a partir da função de transferência </span>
+<span class="sd">        (`self.confereTrans == 1`) ou é um depósito normal (`self.confereTrans == 0`).</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            Se o valor informado for menor que 0.01.</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            Se o saldo atual da conta mais o valor do depósito ultrapassar o limite da conta.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">valor</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">valor</span><span class="p">)</span>
+        <span class="c1"># a variavel saldo vai conter o saldo atual e o limite da conta</span>
+        <span class="n">saldo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pega_saldo</span><span class="p">(</span><span class="n">numero</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">confereTrans</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sincroniza</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">valor</span> <span class="o">&gt;=</span> <span class="mf">0.01</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">saldo</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="n">valor</span> <span class="o">&lt;=</span> <span class="nb">float</span><span class="p">(</span><span class="n">saldo</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">])):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">atualiza_saldo</span><span class="p">(</span><span class="n">numero</span><span class="p">,</span> <span class="n">valor</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">confereTrans</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">saldo</span><span class="p">:</span>
+                    <span class="n">his</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;DATA: </span><span class="si">%d</span><span class="s2">/%m/%Y - HORA: %H:%M&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">: Deposito de R$</span><span class="si">{</span><span class="n">valor</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">atualiza_hist</span><span class="p">(</span><span class="n">numero</span><span class="p">,</span> <span class="n">his</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;Deposito realizado com sucesso.&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">confereTrans</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">confereTrans</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">his</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;DATA: </span><span class="si">%d</span><span class="s2">/%m/%Y - HORA: %H:%M&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">: Falha no deposito</span><span class="se">\n</span><span class="s1">&#39;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">atualiza_hist</span><span class="p">(</span><span class="n">numero</span><span class="p">,</span> <span class="n">his</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">confereTrans</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Não foi possível fazer o deposito.&quot;</span></div>
+
+    
+<div class="viewcode-block" id="Banco.sacar"><a class="viewcode-back" href="../banco_mysql.html#banco_mysql.Banco.sacar">[docs]</a>    <span class="k">def</span> <span class="nf">sacar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numero</span><span class="p">,</span> <span class="n">valor</span><span class="p">,</span> <span class="n">senha</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Realiza uma operação de saque na conta corrente.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        numero : int</span>
+<span class="sd">            Número da conta corrente do usuário.</span>
+<span class="sd">        valor : float</span>
+<span class="sd">            Valor do saque a ser realizado.</span>
+<span class="sd">        senha : str</span>
+<span class="sd">            Senha do usuário para autenticação.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tuple</span>
+<span class="sd">            Um tuple contendo um booleano e uma mensagem de status. O booleano indica se a operação de saque </span>
+<span class="sd">            foi realizada com sucesso ou não. A mensagem de status contém informações adicionais sobre o resultado </span>
+<span class="sd">            da operação.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">valor</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">valor</span><span class="p">)</span>
+        <span class="n">saldo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pega_saldo</span><span class="p">(</span><span class="n">numero</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sincroniza</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">saldo</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">valor</span> <span class="ow">or</span> <span class="n">valor</span> <span class="o">&lt;</span> <span class="mf">0.01</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">confereTrans</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">his</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;DATA: </span><span class="si">%d</span><span class="s2">/%m/%Y - HORA: %H:%M&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">: Falha no saque</span><span class="se">\n</span><span class="s1">&#39;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">atualiza_hist</span><span class="p">(</span><span class="n">numero</span><span class="p">,</span> <span class="n">his</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">confereTrans</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Valor maior que o saldo ou valor menor que 0.&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verificaSenha</span><span class="p">(</span><span class="n">senha</span><span class="p">,</span> <span class="n">numero</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">atualiza_saldo</span><span class="p">(</span><span class="n">numero</span><span class="p">,</span> <span class="n">valor</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">confereTrans</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">saldo</span><span class="p">:</span>
+                        <span class="n">his</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;DATA: </span><span class="si">%d</span><span class="s2">/%m/%Y - HORA: %H:%M&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">: Saque de R$</span><span class="si">{</span><span class="n">valor</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">atualiza_hist</span><span class="p">(</span><span class="n">numero</span><span class="p">,</span> <span class="n">his</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">confereTrans</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;Saque realizado com sucesso.&quot;</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Senha invalida.&quot;</span></div>
+
+    
+<div class="viewcode-block" id="Banco.transfere"><a class="viewcode-back" href="../banco_mysql.html#banco_mysql.Banco.transfere">[docs]</a>    <span class="k">def</span> <span class="nf">transfere</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numero</span><span class="p">,</span> <span class="n">senha</span><span class="p">,</span> <span class="n">destino</span><span class="p">,</span> <span class="n">valor</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Realiza uma transferência da conta com o número informado para a conta de destino.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        numero : int</span>
+<span class="sd">            Número da conta que será usada para realizar a transferência.</span>
+<span class="sd">        senha : str</span>
+<span class="sd">            Senha da conta que será usada para realizar a transferência.</span>
+<span class="sd">        destino : int</span>
+<span class="sd">            Número da conta de destino para onde o valor será transferido.</span>
+<span class="sd">        valor : float</span>
+<span class="sd">            Valor a ser transferido da conta de origem para a conta de destino.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tuple</span>
+<span class="sd">            Um tuple contendo um booleano e uma mensagem de status. O booleano indica se a transferência foi realizada </span>
+<span class="sd">            com sucesso ou não. A mensagem de status contém informações adicionais sobre o resultado da transferência.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        A variável `confereTrans` é usada para conferir se a função foi chamada a partir da função de transferência </span>
+<span class="sd">        (`self.confereTrans == 1`) ou é um depósito normal (`self.confereTrans == 0`).</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            Se o valor informado for menor que 0.01.</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            Se o saldo atual da conta for menor que o valor a ser transferido.</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            Se a conta de destino não consta na base de dados.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">valor</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">valor</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">confereTrans</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verificarNumero</span><span class="p">(</span><span class="n">destino</span><span class="p">):</span>
+            <span class="n">retirou</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sacar</span><span class="p">(</span><span class="n">numero</span><span class="p">,</span> <span class="n">valor</span><span class="p">,</span> <span class="n">senha</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">retirou</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+                <span class="n">his</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;DATA: </span><span class="si">%d</span><span class="s2">/%m/%Y - HORA: %H:%M&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">: Falha na tranferencia de R$</span><span class="si">{</span><span class="n">valor</span><span class="si">}</span><span class="s1"> para a conta </span><span class="si">{</span><span class="n">destino</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">atualiza_hist</span><span class="p">(</span><span class="n">numero</span><span class="p">,</span> <span class="n">his</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Não foi possivel finalizar a transferencia.&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">confereTrans</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">depositar</span><span class="p">(</span><span class="n">destino</span><span class="p">,</span> <span class="n">valor</span><span class="p">)</span>
+
+                <span class="n">his</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&#39;&#39;</span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span>
+<span class="w">                    </span><span class="s2">&quot;DATA: </span><span class="si">%d</span><span class="s2">/%m/%Y - HORA: %H:%M&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">: Tranferencia de R$</span><span class="si">{</span><span class="n">valor</span><span class="si">}</span><span class="s1"> para a conta </span><span class="si">{</span><span class="n">destino</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;&#39;&#39;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">atualiza_hist</span><span class="p">(</span><span class="n">numero</span><span class="p">,</span> <span class="n">his</span><span class="p">)</span>
+                <span class="n">his</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&#39;&#39;</span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span>
+<span class="w">                    </span><span class="s2">&quot;DATA: </span><span class="si">%d</span><span class="s2">/%m/%Y - HORA: %H:%M&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">: Transferencia recebida da conta </span><span class="si">{</span><span class="n">numero</span><span class="si">}</span><span class="s1"> no valor de R$</span><span class="si">{</span><span class="n">valor</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;&#39;&#39;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">atualiza_hist</span><span class="p">(</span><span class="n">destino</span><span class="p">,</span> <span class="n">his</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;Transferencia realizada com sucesso.&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Conta de destino não consta na base de dados.&quot;</span></div>
+
+    <span class="c1"># Função para retirar o extrato da conta</span>
+<div class="viewcode-block" id="Banco.extrato"><a class="viewcode-back" href="../banco_mysql.html#banco_mysql.Banco.extrato">[docs]</a>    <span class="k">def</span> <span class="nf">extrato</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numero</span><span class="p">):</span>
+        <span class="n">saldo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pega_saldo</span><span class="p">(</span><span class="n">numero</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Número: </span><span class="si">{</span><span class="n">numero</span><span class="si">}</span><span class="s1"> </span><span class="se">\n</span><span class="s1"> Saldo: </span><span class="si">{</span><span class="n">saldo</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">his</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;DATA: </span><span class="si">%d</span><span class="s2">/%m/%Y - HORA: %H:%M&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">: Tirou extrato - saldo R$</span><span class="si">{</span><span class="n">saldo</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">atualiza_hist</span><span class="p">(</span><span class="n">numero</span><span class="p">,</span> <span class="n">his</span><span class="p">)</span></div>
+
+    <span class="c1"># def cadastra_bd(self, usuario, senha, numero, titular, saldo, limite, conta):</span>
+    <span class="c1">#     self.sincroniza.acquire()</span>
+    <span class="c1">#     sql = &quot;INSERT INTO contas (numero, usuario, senha, titular, cpf, saldo, limite, obj_conta) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)&quot;</span>
+    <span class="c1">#     valores = (numero, usuario, senha, titular.nome +</span>
+    <span class="c1">#                &quot; &quot; + titular.sobrenome, titular.cpf, saldo, limite, conta)</span>
+    <span class="c1">#     self.cursor.execute(sql, valores)</span>
+    <span class="c1">#     self.conexao.commit()</span>
+    <span class="c1">#     self.fechar_conexao(self.conexao)</span>
+    <span class="c1">#     return True</span>
+
+
+<div class="viewcode-block" id="Banco.busca_usuario"><a class="viewcode-back" href="../banco_mysql.html#banco_mysql.Banco.busca_usuario">[docs]</a>    <span class="k">def</span> <span class="nf">busca_usuario</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">usuario</span><span class="p">,</span> <span class="n">senha</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Busca por um usuário na base de dados e verifica se a senha está correta.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        usuario : str</span>
+<span class="sd">            Nome do usuário que deseja procurar.</span>
+<span class="sd">        senha : str</span>
+<span class="sd">            Senha do usuário que deseja procurar.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bool or None</span>
+<span class="sd">            Se o usuário e a senha forem encontrados, retorna True. Se a senha estiver incorreta, retorna None.</span>
+<span class="sd">            Caso o usuário não seja encontrado na base de dados, retorna False.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sql</span><span class="p">)</span>
+        <span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;SELECT * FROM usuarios&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">i</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="n">usuario</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">i</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="n">senha</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">True</span>
+                <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="Banco.excluir"><a class="viewcode-back" href="../banco_mysql.html#banco_mysql.Banco.excluir">[docs]</a>    <span class="k">def</span> <span class="nf">excluir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numero</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Exclui a conta com o número informado.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        numero : int</span>
+<span class="sd">            Número da conta a ser excluída.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tuple</span>
+<span class="sd">            Um tuple contendo um booleano e uma mensagem de status. O booleano indica se a conta foi excluída com sucesso ou não.</span>
+<span class="sd">            A mensagem de status contém informações adicionais sobre o resultado da operação.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        A exclusão de uma conta é uma operação irreversível. É importante verificar se o número da conta informado é válido</span>
+<span class="sd">        e se a operação deve ser realmente realizada.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sincroniza</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+        <span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;DELETE FROM usuarios WHERE numero = </span><span class="si">{</span><span class="n">numero</span><span class="si">}</span><span class="s2">;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;Conta excluida com sucesso!&quot;</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Carlos Henrique, Eduardo de Sousa.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

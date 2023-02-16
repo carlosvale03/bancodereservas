@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>banco_mysql module &mdash; banco de reservas 1.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="main_multitela module" href="main_multitela.html" />
+    <link rel="prev" title="bancodereservas" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            banco de reservas
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">bancodereservas</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">banco_mysql module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#banco_mysql.Banco"><code class="docutils literal notranslate"><span class="pre">Banco</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#banco_mysql.Banco.atualiza_hist"><code class="docutils literal notranslate"><span class="pre">Banco.atualiza_hist()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#banco_mysql.Banco.atualiza_saldo"><code class="docutils literal notranslate"><span class="pre">Banco.atualiza_saldo()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#banco_mysql.Banco.busca_usuario"><code class="docutils literal notranslate"><span class="pre">Banco.busca_usuario()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#banco_mysql.Banco.cadastra"><code class="docutils literal notranslate"><span class="pre">Banco.cadastra()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#banco_mysql.Banco.conexao"><code class="docutils literal notranslate"><span class="pre">Banco.conexao</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#banco_mysql.Banco.confereTrans"><code class="docutils literal notranslate"><span class="pre">Banco.confereTrans</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#banco_mysql.Banco.cursor"><code class="docutils literal notranslate"><span class="pre">Banco.cursor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#banco_mysql.Banco.depositar"><code class="docutils literal notranslate"><span class="pre">Banco.depositar()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#banco_mysql.Banco.excluir"><code class="docutils literal notranslate"><span class="pre">Banco.excluir()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#banco_mysql.Banco.extrato"><code class="docutils literal notranslate"><span class="pre">Banco.extrato()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#banco_mysql.Banco.fechar_conexao"><code class="docutils literal notranslate"><span class="pre">Banco.fechar_conexao()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#banco_mysql.Banco.login"><code class="docutils literal notranslate"><span class="pre">Banco.login()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#banco_mysql.Banco.numero"><code class="docutils literal notranslate"><span class="pre">Banco.numero</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#banco_mysql.Banco.pega_hist"><code class="docutils literal notranslate"><span class="pre">Banco.pega_hist()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#banco_mysql.Banco.pega_saldo"><code class="docutils literal notranslate"><span class="pre">Banco.pega_saldo()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#banco_mysql.Banco.sacar"><code class="docutils literal notranslate"><span class="pre">Banco.sacar()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#banco_mysql.Banco.sincroniza"><code class="docutils literal notranslate"><span class="pre">Banco.sincroniza</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#banco_mysql.Banco.sql"><code class="docutils literal notranslate"><span class="pre">Banco.sql</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#banco_mysql.Banco.transfere"><code class="docutils literal notranslate"><span class="pre">Banco.transfere()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#banco_mysql.Banco.verificaSenha"><code class="docutils literal notranslate"><span class="pre">Banco.verificaSenha()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#banco_mysql.Banco.verificarCPF"><code class="docutils literal notranslate"><span class="pre">Banco.verificarCPF()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#banco_mysql.Banco.verificarNumero"><code class="docutils literal notranslate"><span class="pre">Banco.verificarNumero()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#banco_mysql.Banco.verificarUsuario"><code class="docutils literal notranslate"><span class="pre">Banco.verificarUsuario()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="main_multitela.html">main_multitela module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="page_cadastro.html">page_cadastro module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="page_home_conta.html">page_home_conta module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="servidor_cliente.html">servidor_cliente module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="servidor_multthread.html">servidor_multthread module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="widget_confirma_excluir.html">widget_confirma_excluir module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="widget_depositar.html">widget_depositar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="widget_excluir.html">widget_excluir module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="widget_historico.html">widget_historico module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="widget_login.html">widget_login module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="widget_sacar.html">widget_sacar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="widget_transferir.html">widget_transferir module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">banco de reservas</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">bancodereservas</a></li>
+      <li class="breadcrumb-item active">banco_mysql module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/banco_mysql.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-banco_mysql">
+<span id="banco-mysql-module"></span><h1>banco_mysql module<a class="headerlink" href="#module-banco_mysql" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="banco_mysql.Banco">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">banco_mysql.</span></span><span class="sig-name descname"><span class="pre">Banco</span></span><a class="reference internal" href="_modules/banco_mysql.html#Banco"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banco_mysql.Banco" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Essa é uma classe que representa o banco.</p>
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Permalink to this heading"></a></h2>
+<p>conexao : mysql.connector
+cursor : cursor
+sql : str
+confereTrans : int
+sincroniza : threading.Lock</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="banco_mysql.Banco.atualiza_hist">
+<span class="sig-name descname"><span class="pre">atualiza_hist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">numero</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">his</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banco_mysql.html#Banco.atualiza_hist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banco_mysql.Banco.atualiza_hist" title="Permalink to this definition"></a></dt>
+<dd><p>Atualiza o histórico de transações de uma determinada conta.</p>
+<section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>numero<span class="classifier">int</span></dt><dd><p>O número da conta cujo histórico será atualizado.</p>
+</dd>
+<dt>his<span class="classifier">str</span></dt><dd><p>A transação a ser adicionada ao histórico.</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h3>Returns<a class="headerlink" href="#returns" title="Permalink to this heading"></a></h3>
+<p>None</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="banco_mysql.Banco.atualiza_saldo">
+<span class="sig-name descname"><span class="pre">atualiza_saldo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">numero</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operacao</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banco_mysql.html#Banco.atualiza_saldo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banco_mysql.Banco.atualiza_saldo" title="Permalink to this definition"></a></dt>
+<dd><p>Atualiza o saldo do usuário, acrescentando ou subtraindo o valor passado como parâmetro.</p>
+<section id="id1">
+<h3>Parameters<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>numero<span class="classifier">int</span></dt><dd><p>Número da conta do usuário.</p>
+</dd>
+<dt>valor<span class="classifier">float</span></dt><dd><p>Valor a ser acrescentado ou subtraído do saldo do usuário.</p>
+</dd>
+<dt>operacao<span class="classifier">bool, optional</span></dt><dd><p>Indica se a operação é de depósito (True) ou de saque (False). O valor padrão é True.</p>
+</dd>
+</dl>
+</section>
+<section id="id2">
+<h3>Returns<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
+<p>None</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="banco_mysql.Banco.busca_usuario">
+<span class="sig-name descname"><span class="pre">busca_usuario</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">usuario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">senha</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banco_mysql.html#Banco.busca_usuario"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banco_mysql.Banco.busca_usuario" title="Permalink to this definition"></a></dt>
+<dd><p>Busca por um usuário na base de dados e verifica se a senha está correta.</p>
+<section id="id3">
+<h3>Parameters<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>usuario<span class="classifier">str</span></dt><dd><p>Nome do usuário que deseja procurar.</p>
+</dd>
+<dt>senha<span class="classifier">str</span></dt><dd><p>Senha do usuário que deseja procurar.</p>
+</dd>
+</dl>
+</section>
+<section id="id4">
+<h3>Returns<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>bool or None</dt><dd><p>Se o usuário e a senha forem encontrados, retorna True. Se a senha estiver incorreta, retorna None.
+Caso o usuário não seja encontrado na base de dados, retorna False.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="banco_mysql.Banco.cadastra">
+<span class="sig-name descname"><span class="pre">cadastra</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">usuario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">senha</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nome</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cpf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saldo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banco_mysql.html#Banco.cadastra"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banco_mysql.Banco.cadastra" title="Permalink to this definition"></a></dt>
+<dd><p>Registra um novo usuário no sistema, com as informações fornecidas.</p>
+<section id="id5">
+<h3>Parameters<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>usuario<span class="classifier">str</span></dt><dd><p>Nome de usuário do novo usuário</p>
+</dd>
+<dt>senha<span class="classifier">str</span></dt><dd><p>Senha do novo usuário</p>
+</dd>
+<dt>nome<span class="classifier">str</span></dt><dd><p>Nome do novo usuário</p>
+</dd>
+<dt>cpf<span class="classifier">str</span></dt><dd><p>CPF do novo usuário</p>
+</dd>
+<dt>saldo<span class="classifier">float, opcional</span></dt><dd><p>Saldo inicial da conta do novo usuário (padrão é 0.0)</p>
+</dd>
+<dt>limite<span class="classifier">float, opcional</span></dt><dd><p>Limite de crédito da conta do novo usuário (padrão é 1000.00)</p>
+</dd>
+</dl>
+</section>
+<section id="id6">
+<h3>Returns<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>tuple</dt><dd><p>Um tuple contendo um booleano e uma mensagem de status. 
+O booleano indica se o cadastro foi realizado com sucesso ou não. 
+A mensagem de status contém informações adicionais sobre o resultado do cadastro.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="banco_mysql.Banco.conexao">
+<span class="sig-name descname"><span class="pre">conexao</span></span><a class="headerlink" href="#banco_mysql.Banco.conexao" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="banco_mysql.Banco.confereTrans">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">confereTrans</span></span><a class="headerlink" href="#banco_mysql.Banco.confereTrans" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="banco_mysql.Banco.cursor">
+<span class="sig-name descname"><span class="pre">cursor</span></span><a class="headerlink" href="#banco_mysql.Banco.cursor" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="banco_mysql.Banco.depositar">
+<span class="sig-name descname"><span class="pre">depositar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">numero</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valor</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banco_mysql.html#Banco.depositar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banco_mysql.Banco.depositar" title="Permalink to this definition"></a></dt>
+<dd><p>Realiza um depósito na conta com o número informado.</p>
+<section id="id7">
+<h3>Parameters<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>numero<span class="classifier">int</span></dt><dd><p>Número da conta na qual será realizado o depósito.</p>
+</dd>
+<dt>valor<span class="classifier">float</span></dt><dd><p>Valor a ser depositado na conta.</p>
+</dd>
+</dl>
+</section>
+<section id="id8">
+<h3>Returns<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>tuple</dt><dd><p>Um tuple contendo um booleano e uma mensagem de status. O booleano indica se o depósito foi realizado 
+com sucesso ou não. A mensagem de status contém informações adicionais sobre o resultado do depósito.</p>
+</dd>
+</dl>
+</section>
+<section id="notes">
+<h3>Notes<a class="headerlink" href="#notes" title="Permalink to this heading"></a></h3>
+<p>A variável <cite>confereTrans</cite> serve para conferir se a função foi chamada a partir da função de transferência 
+(<cite>self.confereTrans == 1</cite>) ou é um depósito normal (<cite>self.confereTrans == 0</cite>).</p>
+</section>
+<section id="raises">
+<h3>Raises<a class="headerlink" href="#raises" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>ValueError</dt><dd><p>Se o valor informado for menor que 0.01.</p>
+</dd>
+<dt>ValueError</dt><dd><p>Se o saldo atual da conta mais o valor do depósito ultrapassar o limite da conta.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="banco_mysql.Banco.excluir">
+<span class="sig-name descname"><span class="pre">excluir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">numero</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banco_mysql.html#Banco.excluir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banco_mysql.Banco.excluir" title="Permalink to this definition"></a></dt>
+<dd><p>Exclui a conta com o número informado.</p>
+<section id="id9">
+<h3>Parameters<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>numero<span class="classifier">int</span></dt><dd><p>Número da conta a ser excluída.</p>
+</dd>
+</dl>
+</section>
+<section id="id10">
+<h3>Returns<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>tuple</dt><dd><p>Um tuple contendo um booleano e uma mensagem de status. O booleano indica se a conta foi excluída com sucesso ou não.
+A mensagem de status contém informações adicionais sobre o resultado da operação.</p>
+</dd>
+</dl>
+</section>
+<section id="id11">
+<h3>Notes<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h3>
+<p>A exclusão de uma conta é uma operação irreversível. É importante verificar se o número da conta informado é válido
+e se a operação deve ser realmente realizada.</p>
+</section>
+<section id="id12">
+<h3>Raises<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h3>
+<p>None</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="banco_mysql.Banco.extrato">
+<span class="sig-name descname"><span class="pre">extrato</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">numero</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banco_mysql.html#Banco.extrato"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banco_mysql.Banco.extrato" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="banco_mysql.Banco.fechar_conexao">
+<span class="sig-name descname"><span class="pre">fechar_conexao</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">con</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banco_mysql.html#Banco.fechar_conexao"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banco_mysql.Banco.fechar_conexao" title="Permalink to this definition"></a></dt>
+<dd><p>Fecha a conexão com o banco de dados.</p>
+<section id="id13">
+<h3>Parameters<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>con<span class="classifier">objeto de conexão do banco de dados</span></dt><dd><p>A conexão que será fechada.</p>
+</dd>
+</dl>
+</section>
+<section id="id14">
+<h3>Returns<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h3>
+<p>None</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="banco_mysql.Banco.login">
+<span class="sig-name descname"><span class="pre">login</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">usuario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">senha</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banco_mysql.html#Banco.login"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banco_mysql.Banco.login" title="Permalink to this definition"></a></dt>
+<dd><p>A função realiza o login de um usuário de acordo com as informações fornecidas.</p>
+<p>…
+Parameters
+———</p>
+<blockquote>
+<div><dl class="simple">
+<dt>usuario<span class="classifier">str </span></dt><dd><p>O nome do usuário</p>
+</dd>
+<dt>senha<span class="classifier">str </span></dt><dd><p>A senha do usuário</p>
+</dd>
+</dl>
+</div></blockquote>
+<section id="id15">
+<h3>Returns<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h3>
+<blockquote>
+<div><p>Se as formações fornecidas forem válidas, a função vai retornar um valor booleano True e um object tupla como com informações da conta do usuário.
+Se não retorna uma tupla com valor booleano False e uma mensagem de erro.</p>
+</div></blockquote>
+</section>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="banco_mysql.Banco.numero">
+<span class="sig-name descname"><span class="pre">numero</span></span><a class="headerlink" href="#banco_mysql.Banco.numero" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="banco_mysql.Banco.pega_hist">
+<span class="sig-name descname"><span class="pre">pega_hist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">numero</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banco_mysql.html#Banco.pega_hist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banco_mysql.Banco.pega_hist" title="Permalink to this definition"></a></dt>
+<dd><p>Retorna o histórico de transações de uma determinada conta.</p>
+<section id="id16">
+<h3>Parameters<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>numero<span class="classifier">int</span></dt><dd><p>O número da conta cujo histórico será retornado.</p>
+</dd>
+</dl>
+</section>
+<section id="id17">
+<h3>Returns<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>list</dt><dd><p>Uma lista contendo o histórico de transações.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="banco_mysql.Banco.pega_saldo">
+<span class="sig-name descname"><span class="pre">pega_saldo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">numero</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banco_mysql.html#Banco.pega_saldo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banco_mysql.Banco.pega_saldo" title="Permalink to this definition"></a></dt>
+<dd><p>Retorna o saldo e limite do usuário, buscando pelo número da conta.</p>
+<section id="id18">
+<h3>Parameters<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>numero<span class="classifier">int</span></dt><dd><p>Número da conta do usuário.</p>
+</dd>
+</dl>
+</section>
+<section id="id19">
+<h3>Returns<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>list</dt><dd><p>Lista contendo duas tuplas, sendo a primeira referente ao saldo e a segunda ao limite.
+Caso o número da conta seja inválido, retorna False.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="banco_mysql.Banco.sacar">
+<span class="sig-name descname"><span class="pre">sacar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">numero</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">senha</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banco_mysql.html#Banco.sacar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banco_mysql.Banco.sacar" title="Permalink to this definition"></a></dt>
+<dd><p>Realiza uma operação de saque na conta corrente.</p>
+<section id="id20">
+<h3>Parameters<a class="headerlink" href="#id20" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>numero<span class="classifier">int</span></dt><dd><p>Número da conta corrente do usuário.</p>
+</dd>
+<dt>valor<span class="classifier">float</span></dt><dd><p>Valor do saque a ser realizado.</p>
+</dd>
+<dt>senha<span class="classifier">str</span></dt><dd><p>Senha do usuário para autenticação.</p>
+</dd>
+</dl>
+</section>
+<section id="id21">
+<h3>Returns<a class="headerlink" href="#id21" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>tuple</dt><dd><p>Um tuple contendo um booleano e uma mensagem de status. O booleano indica se a operação de saque 
+foi realizada com sucesso ou não. A mensagem de status contém informações adicionais sobre o resultado 
+da operação.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="banco_mysql.Banco.sincroniza">
+<span class="sig-name descname"><span class="pre">sincroniza</span></span><a class="headerlink" href="#banco_mysql.Banco.sincroniza" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="banco_mysql.Banco.sql">
+<span class="sig-name descname"><span class="pre">sql</span></span><a class="headerlink" href="#banco_mysql.Banco.sql" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="banco_mysql.Banco.transfere">
+<span class="sig-name descname"><span class="pre">transfere</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">numero</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">senha</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destino</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valor</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banco_mysql.html#Banco.transfere"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banco_mysql.Banco.transfere" title="Permalink to this definition"></a></dt>
+<dd><p>Realiza uma transferência da conta com o número informado para a conta de destino.</p>
+<section id="id22">
+<h3>Parameters<a class="headerlink" href="#id22" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>numero<span class="classifier">int</span></dt><dd><p>Número da conta que será usada para realizar a transferência.</p>
+</dd>
+<dt>senha<span class="classifier">str</span></dt><dd><p>Senha da conta que será usada para realizar a transferência.</p>
+</dd>
+<dt>destino<span class="classifier">int</span></dt><dd><p>Número da conta de destino para onde o valor será transferido.</p>
+</dd>
+<dt>valor<span class="classifier">float</span></dt><dd><p>Valor a ser transferido da conta de origem para a conta de destino.</p>
+</dd>
+</dl>
+</section>
+<section id="id23">
+<h3>Returns<a class="headerlink" href="#id23" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>tuple</dt><dd><p>Um tuple contendo um booleano e uma mensagem de status. O booleano indica se a transferência foi realizada 
+com sucesso ou não. A mensagem de status contém informações adicionais sobre o resultado da transferência.</p>
+</dd>
+</dl>
+</section>
+<section id="id24">
+<h3>Notes<a class="headerlink" href="#id24" title="Permalink to this heading"></a></h3>
+<p>A variável <cite>confereTrans</cite> é usada para conferir se a função foi chamada a partir da função de transferência 
+(<cite>self.confereTrans == 1</cite>) ou é um depósito normal (<cite>self.confereTrans == 0</cite>).</p>
+</section>
+<section id="id25">
+<h3>Raises<a class="headerlink" href="#id25" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>ValueError</dt><dd><p>Se o valor informado for menor que 0.01.</p>
+</dd>
+<dt>ValueError</dt><dd><p>Se o saldo atual da conta for menor que o valor a ser transferido.</p>
+</dd>
+<dt>ValueError</dt><dd><p>Se a conta de destino não consta na base de dados.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="banco_mysql.Banco.verificaSenha">
+<span class="sig-name descname"><span class="pre">verificaSenha</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">senha</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numero</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banco_mysql.html#Banco.verificaSenha"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banco_mysql.Banco.verificaSenha" title="Permalink to this definition"></a></dt>
+<dd><p>Verifica se a senha é válida para um determinado número de conta.</p>
+<section id="id26">
+<h3>Parameters<a class="headerlink" href="#id26" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>senha<span class="classifier">str</span></dt><dd><p>A senha a ser verificada.</p>
+</dd>
+<dt>numero<span class="classifier">int</span></dt><dd><p>O número da conta cuja senha será verificada.</p>
+</dd>
+</dl>
+</section>
+<section id="id27">
+<h3>Returns<a class="headerlink" href="#id27" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>tuple</dt><dd><p>Uma tupla contendo um valor booleano que indica se a senha é válida e uma mensagem de status.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="banco_mysql.Banco.verificarCPF">
+<span class="sig-name descname"><span class="pre">verificarCPF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cpf</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banco_mysql.html#Banco.verificarCPF"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banco_mysql.Banco.verificarCPF" title="Permalink to this definition"></a></dt>
+<dd><p>Verifica se o cpf existe no banco de dados.</p>
+<section id="id28">
+<h3>Parameters<a class="headerlink" href="#id28" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>cpf<span class="classifier">str</span></dt><dd><p>O cpf que será verificado.</p>
+</dd>
+</dl>
+</section>
+<section id="id29">
+<h3>Returns<a class="headerlink" href="#id29" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>booleano</dt><dd><p>Um valor booleano que indica se o cpf existe ou não no banco de dados.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="banco_mysql.Banco.verificarNumero">
+<span class="sig-name descname"><span class="pre">verificarNumero</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">numero</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banco_mysql.html#Banco.verificarNumero"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banco_mysql.Banco.verificarNumero" title="Permalink to this definition"></a></dt>
+<dd><p>Verifica se o número existe no banco de dados.</p>
+<section id="id30">
+<h3>Parameters<a class="headerlink" href="#id30" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>numero<span class="classifier">int</span></dt><dd><p>O número da conta cuja será verificado.</p>
+</dd>
+</dl>
+</section>
+<section id="id31">
+<h3>Returns<a class="headerlink" href="#id31" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>booleano</dt><dd><p>Um valor booleano que indica se o número existe ou não no banco de dados.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="banco_mysql.Banco.verificarUsuario">
+<span class="sig-name descname"><span class="pre">verificarUsuario</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">usuario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">senha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usuarioSenha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/banco_mysql.html#Banco.verificarUsuario"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#banco_mysql.Banco.verificarUsuario" title="Permalink to this definition"></a></dt>
+<dd><p>Verifica se um usuário ou um usuário e senha são válidos.</p>
+<section id="id32">
+<h3>Parameters<a class="headerlink" href="#id32" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>usuario<span class="classifier">str</span></dt><dd><p>O nome de usuário a ser verificado.</p>
+</dd>
+<dt>senha<span class="classifier">str, optional</span></dt><dd><p>A senha a ser verificada (padrão é None).</p>
+</dd>
+<dt>usuarioSenha<span class="classifier">bool, optional</span></dt><dd><p>Indica se a verificação será feita apenas no nome de usuário (True) ou se incluirá a senha (False).</p>
+</dd>
+</dl>
+</section>
+<section id="id33">
+<h3>Returns<a class="headerlink" href="#id33" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>se usuarioSenha for True:</dt><dd><dl class="simple">
+<dt>booleano</dt><dd><p>Um valor booleano que indica se o usuario está cadastrado no banco de dados</p>
+</dd>
+</dl>
+</dd>
+<dt>se usuarioSenha for False:</dt><dd><dl class="simple">
+<dt>tuple</dt><dd><p>Uma tupla contendo um valor booleano que indica se o usuário ou usuário/senha 
+são válidos e uma mensagem de status.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="bancodereservas" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="main_multitela.html" class="btn btn-neutral float-right" title="main_multitela module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Carlos Henrique, Eduardo de Sousa.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

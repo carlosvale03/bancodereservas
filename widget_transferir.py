@@ -12,6 +12,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class Page_transferir(object):
+    """
+    Essa é uma classe para a pagina de transferencia
+    """
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(521, 453)

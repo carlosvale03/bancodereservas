@@ -12,6 +12,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class Page_excluir(object):
+    """
+    Essa é uma classe para a pagina de excluir conta
+    """
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(516, 307)

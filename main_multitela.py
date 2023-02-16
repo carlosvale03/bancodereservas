@@ -1,4 +1,3 @@
-from typing import Type
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox
 
@@ -21,11 +20,24 @@ from servidor_cliente import *
 
 class Ui_Main(QtWidgets.QWidget):
     def setupUi(self, Main):
+        """
+        Define a aparência e a organização da interface gráfica.
+
+        Args
+        ----
+            Main : QtWidgets.QWidget 
+                Widget principal que representa a janela da aplicação.
+
+        Returns:
+            None
+        """
         Main.setObjectName('Main')
         Main.resize(640, 480)
 
+        # Define um layout em pilha (stacked layout)
         self.QtStack = QtWidgets.QStackedLayout()
 
+        # Cria nove janelas principais (QMainWindow) para cada uma das páginas da aplicação
         self.stack0 = QtWidgets.QMainWindow()
         self.stack1 = QtWidgets.QMainWindow()
         self.stack2 = QtWidgets.QMainWindow()
@@ -36,6 +48,7 @@ class Ui_Main(QtWidgets.QWidget):
         self.stack7 = QtWidgets.QMainWindow()
         self.stack8 = QtWidgets.QMainWindow()
 
+        # Define a interface das telas e adiciona ao stack de janelas
         self.tela_inicial = Ui_login()
         self.tela_inicial.setupUi(self.stack0)
 
@@ -63,6 +76,7 @@ class Ui_Main(QtWidgets.QWidget):
         self.tela_confirma_excluir = Page_confirma_excluir()
         self.tela_confirma_excluir.setupUi(self.stack8)
 
+        # Adiciona as janelas criadas ao stacked layout
         self.QtStack.addWidget(self.stack0)
         self.QtStack.addWidget(self.stack1)
         self.QtStack.addWidget(self.stack2)
@@ -315,9 +329,12 @@ class Main(QMainWindow, Ui_Main):
         ...
         Parameters
         ----------
-            valor(str): valor da transferência
-            numDestino(str): número da conta de destino
-            senha(str): senha da conta
+            valor : str
+                valor da transferência
+            numDestino : str 
+                número da conta de destino
+            senha : str
+                senha da conta
 
         Return:
             None.
@@ -365,8 +382,10 @@ class Main(QMainWindow, Ui_Main):
 
         Parameters
         ----------
-            valor(str): valor do saque
-            senha(str): senha da conta
+            valor : str
+                valor do saque
+            senha : str
+                senha da conta
 
         '''
         valor = self.tela_sacar.txt_valor.text()
@@ -410,8 +429,10 @@ class Main(QMainWindow, Ui_Main):
 
         Parameters
         ----------
-            valor(str): valor do deposito
-            senha(str): senha da conta
+            valor : str
+                valor do deposito
+            senha : str
+                senha da conta
 
         '''
         valor = self.tela_depositar.txt_valor.text()
@@ -464,8 +485,10 @@ class Main(QMainWindow, Ui_Main):
         ...
         Parameters
         ----------
-            senha(str): senha do usuário
-            numero(str): número da conta
+            senha : str
+                senha da conta
+            numero : str
+                número da conta
 
         '''
         senha = self.tela_excluir.txt_senha.text()
@@ -489,11 +512,15 @@ class Main(QMainWindow, Ui_Main):
 
         Parameters
         ----------
-            numero(str): número da conta
-            solict(str): vai pegar uma string contendo o metodo e os atributos que serão passados para o servidor
-            flag(list): vai verificar qual foi a solicitação e receber valor booleano na primeira posição e uma 
-            string na segunda
-            noti(str): vai receber a notificação que será retornada na variavel flag e concatenada
+            numero : str
+                número da conta
+            solict : str
+                vai pegar uma string contendo o metodo e os atributos que serão passados para o servidor
+            flag : list
+                vai verificar qual foi a solicitação e receber valor booleano na primeira posição e uma 
+                string na segunda
+            noti : str
+                vai receber a notificação que será retornada na variavel flag e concatenada
 
         '''
         numero = self.tela_home.txt_numero.text()
@@ -523,11 +550,15 @@ class Main(QMainWindow, Ui_Main):
 
         Parameters
         ----------
-            numero(str): número da conta
-            solict(str): vai pegar uma string contendo o metodo e os atributos que serão passados para o servidor
-            flag(list): vai verificar qual foi a solicitação e receber valor booleano na primeira posição e 
-            uma string na segunda
-            noti(str): vai receber a notificação que será retornada na variavel flag e concatenada
+            numero : str
+                número da conta
+            solict : str
+                vai pegar uma string contendo o metodo e os atributos que serão passados para o servidor
+            flag : list
+                vai verificar qual foi a solicitação e receber valor booleano na primeira posição e uma 
+                string na segunda
+            noti : str
+                vai receber a notificação que será retornada na variavel flag e concatenada
         '''
         numero = self.tela_home.txt_numero.text()
         solicit = f'pega_hist*{numero}'
@@ -574,10 +605,13 @@ class Main(QMainWindow, Ui_Main):
 
         Parameters
         ----------
-            numero(str): número da conta
-            solict(str): vai pegar uma string contendo o metodo e os atributos que serão passados para o servidor
-            flag(list): vai verificar qual foi a solicitação e receber valor booleano na primeira posição e 
-            uma string na segunda
+            numero : str
+                número da conta
+            solict : str
+                vai pegar uma string contendo o metodo e os atributos que serão passados para o servidor
+            flag : list
+                vai verificar qual foi a solicitação e receber valor booleano na primeira posição e uma 
+                string na segunda
         '''
         if self.tela_home.url_verSaldo == ("\n"
                                            "\n"
@@ -666,10 +700,12 @@ class Main(QMainWindow, Ui_Main):
 
         Parameters
         ----------
-            usuario (bool): Nome de usuário do cliente (opcional). Se não for especificado, 
-            o nome de usuário da caixa de texto da tela inicial será usado.
-            senha (bool): Senha do cliente (opcional). Se não for especificado, a senha da 
-            caixa de texto da tela inicial será usada.
+            usuario : bool
+                Nome de usuário do cliente (opcional). Se não for especificado, 
+                o nome de usuário da caixa de texto da tela inicial será usado.
+            senha : bool
+                Senha do cliente (opcional). Se não for especificado, a senha da 
+                caixa de texto da tela inicial será usada.
 
         Return:
             None.
@@ -711,7 +747,8 @@ class Main(QMainWindow, Ui_Main):
 
         Parameters
         ----------
-            num(int): Variável representa um número que será sorteado.
+            num : int
+                Variável representa um número que será sorteado.
 
         Return:
             Número que foi sorteado.
@@ -729,11 +766,16 @@ class Main(QMainWindow, Ui_Main):
 
         Parameters
         ----------
-            usuario(str): Nome de usuário.
-            senha(str): Senha do usuário.
-            nome(str): Nome do usuário.
-            sobrenome(str): Sobrenome do usuário.
-            cpf(str): CPF do usuário.
+            usuario : str
+                Nome de usuário.
+            senha : str
+                Senha do usuário.
+            nome : str
+                Nome do usuário.
+            sobrenome : str
+                Sobrenome do usuário.
+            cpf : str
+                CPF do usuário.
 
         Return:
             None.

@@ -12,6 +12,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class Page_historico(object):
+    """
+    Essa é uma classe para a pagina de historico
+    """
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(521, 419)

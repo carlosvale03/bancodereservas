@@ -3,15 +3,12 @@ import datetime
 from random import randint
 import threading
 
-# from conta_mysql import Conta
-# from cliente import Cliente
-
 
 class Banco:
     '''
     Essa é uma classe que representa o banco.
 
-    Atributos
+    Attributes
     ---------
     conexao : mysql.connector
     cursor : cursor

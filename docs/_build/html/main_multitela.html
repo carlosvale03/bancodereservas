@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>main_multitela module &mdash; banco de reservas 1.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="page_cadastro module" href="page_cadastro.html" />
+    <link rel="prev" title="banco_mysql module" href="banco_mysql.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            banco de reservas
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">bancodereservas</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="banco_mysql.html">banco_mysql module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">main_multitela module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#main_multitela.Main"><code class="docutils literal notranslate"><span class="pre">Main</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#main_multitela.Main.abrirHomeConta"><code class="docutils literal notranslate"><span class="pre">Main.abrirHomeConta()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#main_multitela.Main.abrirTelaCadastro"><code class="docutils literal notranslate"><span class="pre">Main.abrirTelaCadastro()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#main_multitela.Main.atualizaSaldo"><code class="docutils literal notranslate"><span class="pre">Main.atualizaSaldo()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#main_multitela.Main.botaoCadastra"><code class="docutils literal notranslate"><span class="pre">Main.botaoCadastra()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#main_multitela.Main.botaoConfirmar"><code class="docutils literal notranslate"><span class="pre">Main.botaoConfirmar()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#main_multitela.Main.botaoDepositar"><code class="docutils literal notranslate"><span class="pre">Main.botaoDepositar()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#main_multitela.Main.botaoDepositar2"><code class="docutils literal notranslate"><span class="pre">Main.botaoDepositar2()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#main_multitela.Main.botaoExcluir"><code class="docutils literal notranslate"><span class="pre">Main.botaoExcluir()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#main_multitela.Main.botaoExcluir2"><code class="docutils literal notranslate"><span class="pre">Main.botaoExcluir2()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#main_multitela.Main.botaoHistorico"><code class="docutils literal notranslate"><span class="pre">Main.botaoHistorico()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#main_multitela.Main.botaoSacar"><code class="docutils literal notranslate"><span class="pre">Main.botaoSacar()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#main_multitela.Main.botaoSacar2"><code class="docutils literal notranslate"><span class="pre">Main.botaoSacar2()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#main_multitela.Main.botaoSair"><code class="docutils literal notranslate"><span class="pre">Main.botaoSair()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#main_multitela.Main.botaoTransferencia"><code class="docutils literal notranslate"><span class="pre">Main.botaoTransferencia()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#main_multitela.Main.botaoTransferir2"><code class="docutils literal notranslate"><span class="pre">Main.botaoTransferir2()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#main_multitela.Main.botaoVerSaldo"><code class="docutils literal notranslate"><span class="pre">Main.botaoVerSaldo()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#main_multitela.Main.botaoVoltaHome"><code class="docutils literal notranslate"><span class="pre">Main.botaoVoltaHome()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#main_multitela.Main.botaoVoltar"><code class="docutils literal notranslate"><span class="pre">Main.botaoVoltar()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#main_multitela.Main.concatenar"><code class="docutils literal notranslate"><span class="pre">Main.concatenar()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#main_multitela.Main.concatenarHis"><code class="docutils literal notranslate"><span class="pre">Main.concatenarHis()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#main_multitela.Main.request_server"><code class="docutils literal notranslate"><span class="pre">Main.request_server()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#main_multitela.Main.sorteiaNum"><code class="docutils literal notranslate"><span class="pre">Main.sorteiaNum()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#main_multitela.Ui_Main"><code class="docutils literal notranslate"><span class="pre">Ui_Main</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#main_multitela.Ui_Main.setupUi"><code class="docutils literal notranslate"><span class="pre">Ui_Main.setupUi()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="page_cadastro.html">page_cadastro module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="page_home_conta.html">page_home_conta module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="servidor_cliente.html">servidor_cliente module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="servidor_multthread.html">servidor_multthread module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="widget_confirma_excluir.html">widget_confirma_excluir module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="widget_depositar.html">widget_depositar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="widget_excluir.html">widget_excluir module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="widget_historico.html">widget_historico module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="widget_login.html">widget_login module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="widget_sacar.html">widget_sacar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="widget_transferir.html">widget_transferir module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">banco de reservas</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">bancodereservas</a></li>
+      <li class="breadcrumb-item active">main_multitela module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/main_multitela.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-main_multitela">
+<span id="main-multitela-module"></span><h1>main_multitela module<a class="headerlink" href="#module-main_multitela" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="main_multitela.Main">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">main_multitela.</span></span><span class="sig-name descname"><span class="pre">Main</span></span><a class="reference internal" href="_modules/main_multitela.html#Main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main_multitela.Main" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QMainWindow</span></code>, <a class="reference internal" href="#main_multitela.Ui_Main" title="main_multitela.Ui_Main"><code class="xref py py-class docutils literal notranslate"><span class="pre">Ui_Main</span></code></a></p>
+<p>A classe Main é uma subclasse da classe QMainWindow e da classe Ui_Main. Essa classe é responsável 
+por implementar a lógica de negócios da aplicação.</p>
+<section id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>request_server(self, request: str):</dt><dd><p>Método responsável por enviar uma solicitação para o servidor e retornar a resposta.</p>
+</dd>
+<dt>concatenar(self, string: str):</dt><dd><p>Método que recebe uma string contendo as palavras a serem concatenadas. Concatena as palavras de uma string,
+separadas por espaços.</p>
+</dd>
+<dt>concatenarHis(self, string: str):</dt><dd><p>Concatena as linhas de uma string separadas pelo caractere ‘n’.</p>
+</dd>
+<dt>botaoTransferir2(self):</dt><dd><p>Função responsável por transferir um valor para outra conta. Essa função é chamada ao 
+clicar no botão “Transferir” na tela de transferência. Ela obtém o valor digitado pelo usuário, 
+o número da conta de destino e a senha do usuário. Em seguida, valida se o valor é numérico e 
+realiza a solicitação de transferência para o servidor. Se a transação for bem-sucedida, exibe uma 
+mensagem de sucesso e atualiza o saldo do usuário.</p>
+</dd>
+<dt>botaoSacar2(self):</dt><dd><p>Realiza a operação de saque na conta do usuário, ao inserir um valor e senha.</p>
+</dd>
+<dt>botaoDepositar2(self):</dt><dd><p>Realiza a operação de deposito na conta do usuário, ao inserir um valor e senha.</p>
+</dd>
+<dt>botaoExcluir2(self):</dt><dd><p>A função representa botão excluir que vai chamar a tela de confirmação 
+que a conta será excluida</p>
+</dd>
+<dt>botaoConfirmar(self):</dt><dd><p>A função representa botão confirmar que a conta será excluida</p>
+</dd>
+<dt>botaoVoltaHome(self):</dt><dd><p>Função vai fazer com que o usuário volte para a tela home</p>
+</dd>
+<dt>botaoExcluir(self):</dt><dd><p>Função vai redirecionar para tela de excluir login</p>
+</dd>
+<dt>botaoHistorico(self):</dt><dd><p>Atualiza a tela de histórico de transações com as informações da conta especificada.</p>
+</dd>
+<dt>botaoTransferencia(self):</dt><dd><p>Limpa os campos de valor e senha na tela de transferência e muda a exibição para a tela de transferência.</p>
+</dd>
+<dt>botaoSacar(self):</dt><dd><p>Limpa os campos de valor e senha na tela de saque e muda a exibição para a tela de saque.</p>
+</dd>
+<dt>botaoDepositar(self):</dt><dd><p>Limpa os campos de valor e senha na tela de deposito e muda a exibição para a tela de deposito.</p>
+</dd>
+<dt>botaoSair(self):</dt><dd><p>Função vai fazer com que o usuário saia do banco.</p>
+</dd>
+<dt>atualizaSaldo(self):</dt><dd><p>Função para atalizar o saldo que é mostrado na tela Home sempre que o botão “ocultar saldo” aparecer.</p>
+</dd>
+<dt>botaoVerSaldo(self):</dt><dd><p>Função para alterar o botão “ver saldo” para “ocultar saldo” e vice versa. 
+Essa função também vai mostrar e ocultar o saldo, dependendo da condição.</p>
+</dd>
+<dt>abrirHomeConta(self, usuario: bool, senha: bool):</dt><dd><p>Verifica as credenciais de login do usuário e abre a tela principal se o login for bem-sucedido.</p>
+</dd>
+<dt>abrirTelaCadastro(self):</dt><dd><p>Função para abrir tela de cadastro a partir do botão “cadastrar” na tela de login.</p>
+</dd>
+<dt>sorteiaNum(self):</dt><dd><p>Função para sortear numero aleatorio entre 100 e 1000 para as contas.</p>
+</dd>
+<dt>botaoCadastra(self):</dt><dd><p>Função para conferir dados passados pelo usuario e cadastra-lo no banco.</p>
+</dd>
+<dt>botaoVoltar(self):</dt><dd><p>Função para voltar para tela de login.</p>
+</dd>
+</dl>
+</section>
+<section id="slots">
+<h2>Slots<a class="headerlink" href="#slots" title="Permalink to this heading"></a></h2>
+<dl>
+<dt>Os seguintes Slots são utilizados para conectar os botões das telas com as funções correspondentes:</dt><dd><ul class="simple">
+<li><p>abrirHomeConta</p></li>
+<li><p>abrirTelaCadastro</p></li>
+<li><p>botaoCadastra</p></li>
+<li><p>botaoVoltar</p></li>
+<li><p>botaoVerSaldo</p></li>
+<li><p>botaoSair</p></li>
+<li><p>botaoDepositar</p></li>
+<li><p>botaoSacar</p></li>
+<li><p>botaoTransferencia</p></li>
+<li><p>botaoHistorico</p></li>
+<li><p>botaoExcluir</p></li>
+<li><p>botaoVoltaHome</p></li>
+<li><p>botaoExcluir2</p></li>
+<li><p>botaoConfirmar</p></li>
+<li><p>botaoDepositar2</p></li>
+<li><p>botaoSacar2</p></li>
+<li><p>botaoTransferir2</p></li>
+</ul>
+<p>Cada slot é responsável por executar uma determinada ação quando o botão correspondente é clicado. As ações
+executadas pelos slots incluem a exibição das telas, a realização das operações bancárias, e o envio de
+solicitações ao servidor.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="main_multitela.Main.abrirHomeConta">
+<span class="sig-name descname"><span class="pre">abrirHomeConta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">usuario</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">senha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main_multitela.html#Main.abrirHomeConta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main_multitela.Main.abrirHomeConta" title="Permalink to this definition"></a></dt>
+<dd><p>Verifica as credenciais de login do usuário e abre a tela principal se o login for bem-sucedido.</p>
+<section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h3>
+<blockquote>
+<div><dl class="simple">
+<dt>usuario<span class="classifier">bool</span></dt><dd><p>Nome de usuário do cliente (opcional). Se não for especificado, 
+o nome de usuário da caixa de texto da tela inicial será usado.</p>
+</dd>
+<dt>senha<span class="classifier">bool</span></dt><dd><p>Senha do cliente (opcional). Se não for especificado, a senha da 
+caixa de texto da tela inicial será usada.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>Return:</dt><dd><p>None.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main_multitela.Main.abrirTelaCadastro">
+<span class="sig-name descname"><span class="pre">abrirTelaCadastro</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/main_multitela.html#Main.abrirTelaCadastro"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main_multitela.Main.abrirTelaCadastro" title="Permalink to this definition"></a></dt>
+<dd><p>Função para abrir tela de cadastro a partir do botão “cadastrar” na tela de login.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main_multitela.Main.atualizaSaldo">
+<span class="sig-name descname"><span class="pre">atualizaSaldo</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/main_multitela.html#Main.atualizaSaldo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main_multitela.Main.atualizaSaldo" title="Permalink to this definition"></a></dt>
+<dd><p>Função para atalizar o saldo que é mostrado na tela Home sempre que o botão “ocultar saldo” aparecer.</p>
+<section id="id1">
+<h3>Parameters<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
+<blockquote>
+<div><dl class="simple">
+<dt>numero<span class="classifier">str</span></dt><dd><p>número da conta</p>
+</dd>
+<dt>solict<span class="classifier">str</span></dt><dd><p>vai pegar uma string contendo o metodo e os atributos que serão passados para o servidor</p>
+</dd>
+<dt>flag<span class="classifier">list</span></dt><dd><p>vai verificar qual foi a solicitação e receber valor booleano na primeira posição e uma 
+string na segunda</p>
+</dd>
+</dl>
+</div></blockquote>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main_multitela.Main.botaoCadastra">
+<span class="sig-name descname"><span class="pre">botaoCadastra</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/main_multitela.html#Main.botaoCadastra"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main_multitela.Main.botaoCadastra" title="Permalink to this definition"></a></dt>
+<dd><p>Função para conferir dados passados pelo usuario e cadastra-lo no banco.</p>
+<section id="id2">
+<h3>Parameters<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
+<blockquote>
+<div><dl class="simple">
+<dt>usuario<span class="classifier">str</span></dt><dd><p>Nome de usuário.</p>
+</dd>
+<dt>senha<span class="classifier">str</span></dt><dd><p>Senha do usuário.</p>
+</dd>
+<dt>nome<span class="classifier">str</span></dt><dd><p>Nome do usuário.</p>
+</dd>
+<dt>sobrenome<span class="classifier">str</span></dt><dd><p>Sobrenome do usuário.</p>
+</dd>
+<dt>cpf<span class="classifier">str</span></dt><dd><p>CPF do usuário.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>Return:</dt><dd><p>None.</p>
+</dd>
+<dt>Examples:</dt><dd><p>Se o usuário tiver digitado todos os dados obrigatórios para o cadastro, a função vai 
+fazer as verificações necessárias e se tudo der certo o usuário já vai ter acesso a 
+página home do banco. Se não der certo a função vai informar ao usuário os erros que ele cometeu.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main_multitela.Main.botaoConfirmar">
+<span class="sig-name descname"><span class="pre">botaoConfirmar</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/main_multitela.html#Main.botaoConfirmar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main_multitela.Main.botaoConfirmar" title="Permalink to this definition"></a></dt>
+<dd><p>A função representa botão confirmar que a conta será excluida</p>
+<section id="id3">
+<h3>Parameters<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
+<blockquote>
+<div><dl class="simple">
+<dt>numero<span class="classifier">str</span></dt><dd><p>número da conta</p>
+</dd>
+<dt>solict<span class="classifier">str</span></dt><dd><p>vai pegar uma string contendo o metodo e os atributos que serão passados para o servidor</p>
+</dd>
+<dt>flag<span class="classifier">list</span></dt><dd><p>vai verificar qual foi a solicitação e receber valor booleano na primeira posição e uma 
+string na segunda</p>
+</dd>
+<dt>noti<span class="classifier">str</span></dt><dd><p>vai receber a notificação que será retornada na variavel flag e concatenada</p>
+</dd>
+</dl>
+</div></blockquote>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main_multitela.Main.botaoDepositar">
+<span class="sig-name descname"><span class="pre">botaoDepositar</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/main_multitela.html#Main.botaoDepositar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main_multitela.Main.botaoDepositar" title="Permalink to this definition"></a></dt>
+<dd><p>Limpa os campos de valor e senha na tela de deposito e muda a exibição para a tela de deposito.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main_multitela.Main.botaoDepositar2">
+<span class="sig-name descname"><span class="pre">botaoDepositar2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/main_multitela.html#Main.botaoDepositar2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main_multitela.Main.botaoDepositar2" title="Permalink to this definition"></a></dt>
+<dd><p>Realiza a operação de deposito na conta do usuário, ao inserir um valor e senha.</p>
+<section id="id4">
+<h3>Parameters<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
+<blockquote>
+<div><dl class="simple">
+<dt>valor<span class="classifier">str</span></dt><dd><p>valor do deposito</p>
+</dd>
+<dt>senha<span class="classifier">str</span></dt><dd><p>senha da conta</p>
+</dd>
+</dl>
+</div></blockquote>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main_multitela.Main.botaoExcluir">
+<span class="sig-name descname"><span class="pre">botaoExcluir</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/main_multitela.html#Main.botaoExcluir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main_multitela.Main.botaoExcluir" title="Permalink to this definition"></a></dt>
+<dd><p>Função vai redirecionar para tela de excluir login</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main_multitela.Main.botaoExcluir2">
+<span class="sig-name descname"><span class="pre">botaoExcluir2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/main_multitela.html#Main.botaoExcluir2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main_multitela.Main.botaoExcluir2" title="Permalink to this definition"></a></dt>
+<dd><p>A função representa botão excluir que vai chamar a tela de confirmação 
+que a conta será excluida</p>
+<p>…
+Parameters
+———-</p>
+<blockquote>
+<div><dl class="simple">
+<dt>senha<span class="classifier">str</span></dt><dd><p>senha da conta</p>
+</dd>
+<dt>numero<span class="classifier">str</span></dt><dd><p>número da conta</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main_multitela.Main.botaoHistorico">
+<span class="sig-name descname"><span class="pre">botaoHistorico</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/main_multitela.html#Main.botaoHistorico"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main_multitela.Main.botaoHistorico" title="Permalink to this definition"></a></dt>
+<dd><p>Atualiza a tela de histórico de transações com as informações da conta especificada.</p>
+<section id="id5">
+<h3>Parameters<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
+<blockquote>
+<div><dl class="simple">
+<dt>numero<span class="classifier">str</span></dt><dd><p>número da conta</p>
+</dd>
+<dt>solict<span class="classifier">str</span></dt><dd><p>vai pegar uma string contendo o metodo e os atributos que serão passados para o servidor</p>
+</dd>
+<dt>flag<span class="classifier">list</span></dt><dd><p>vai verificar qual foi a solicitação e receber valor booleano na primeira posição e uma 
+string na segunda</p>
+</dd>
+<dt>noti<span class="classifier">str</span></dt><dd><p>vai receber a notificação que será retornada na variavel flag e concatenada</p>
+</dd>
+</dl>
+</div></blockquote>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main_multitela.Main.botaoSacar">
+<span class="sig-name descname"><span class="pre">botaoSacar</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/main_multitela.html#Main.botaoSacar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main_multitela.Main.botaoSacar" title="Permalink to this definition"></a></dt>
+<dd><p>Limpa os campos de valor e senha na tela de saque e muda a exibição para a tela de saque.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main_multitela.Main.botaoSacar2">
+<span class="sig-name descname"><span class="pre">botaoSacar2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/main_multitela.html#Main.botaoSacar2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main_multitela.Main.botaoSacar2" title="Permalink to this definition"></a></dt>
+<dd><p>Realiza a operação de saque na conta do usuário, ao inserir um valor e senha.</p>
+<section id="id6">
+<h3>Parameters<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
+<blockquote>
+<div><dl class="simple">
+<dt>valor<span class="classifier">str</span></dt><dd><p>valor do saque</p>
+</dd>
+<dt>senha<span class="classifier">str</span></dt><dd><p>senha da conta</p>
+</dd>
+</dl>
+</div></blockquote>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main_multitela.Main.botaoSair">
+<span class="sig-name descname"><span class="pre">botaoSair</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/main_multitela.html#Main.botaoSair"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main_multitela.Main.botaoSair" title="Permalink to this definition"></a></dt>
+<dd><p>Função vai fazer com que o usuário saia do banco.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main_multitela.Main.botaoTransferencia">
+<span class="sig-name descname"><span class="pre">botaoTransferencia</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/main_multitela.html#Main.botaoTransferencia"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main_multitela.Main.botaoTransferencia" title="Permalink to this definition"></a></dt>
+<dd><p>Limpa os campos de valor e senha na tela de transferência e muda a exibição para a tela de transferência.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main_multitela.Main.botaoTransferir2">
+<span class="sig-name descname"><span class="pre">botaoTransferir2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/main_multitela.html#Main.botaoTransferir2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main_multitela.Main.botaoTransferir2" title="Permalink to this definition"></a></dt>
+<dd><p>Função responsável por transferir um valor para outra conta. Essa função é chamada ao 
+clicar no botão “Transferir” na tela de transferência. Ela obtém o valor digitado pelo usuário, 
+o número da conta de destino e a senha do usuário. Em seguida, valida se o valor é numérico e 
+realiza a solicitação de transferência para o servidor. Se a transação for bem-sucedida, exibe uma 
+mensagem de sucesso e atualiza o saldo do usuário.</p>
+<p>…
+Parameters
+———-</p>
+<blockquote>
+<div><dl class="simple">
+<dt>valor<span class="classifier">str</span></dt><dd><p>valor da transferência</p>
+</dd>
+<dt>numDestino<span class="classifier">str </span></dt><dd><p>número da conta de destino</p>
+</dd>
+<dt>senha<span class="classifier">str</span></dt><dd><p>senha da conta</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>Return:</dt><dd><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main_multitela.Main.botaoVerSaldo">
+<span class="sig-name descname"><span class="pre">botaoVerSaldo</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/main_multitela.html#Main.botaoVerSaldo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main_multitela.Main.botaoVerSaldo" title="Permalink to this definition"></a></dt>
+<dd><p>Função para alterar o botão “ver saldo” para “ocultar saldo” e vice versa. 
+Essa função também vai mostrar e ocultar o saldo, dependendo da condição.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main_multitela.Main.botaoVoltaHome">
+<span class="sig-name descname"><span class="pre">botaoVoltaHome</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/main_multitela.html#Main.botaoVoltaHome"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main_multitela.Main.botaoVoltaHome" title="Permalink to this definition"></a></dt>
+<dd><p>Função vai fazer com que o usuário volte para a tela home</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main_multitela.Main.botaoVoltar">
+<span class="sig-name descname"><span class="pre">botaoVoltar</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/main_multitela.html#Main.botaoVoltar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main_multitela.Main.botaoVoltar" title="Permalink to this definition"></a></dt>
+<dd><p>Função para voltar para tela de login.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main_multitela.Main.concatenar">
+<span class="sig-name descname"><span class="pre">concatenar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main_multitela.html#Main.concatenar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main_multitela.Main.concatenar" title="Permalink to this definition"></a></dt>
+<dd><p>Concatena as palavras de uma string, separadas por espaços.</p>
+<section id="id7">
+<h3>Parameters<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>string<span class="classifier">str</span></dt><dd><p>Uma string contendo as palavras a serem concatenadas.</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h3>Returns<a class="headerlink" href="#returns" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>str</dt><dd><p>Uma string com as palavras concatenadas.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main_multitela.Main.concatenarHis">
+<span class="sig-name descname"><span class="pre">concatenarHis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main_multitela.html#Main.concatenarHis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main_multitela.Main.concatenarHis" title="Permalink to this definition"></a></dt>
+<dd><p>Concatena as linhas de uma string separadas pelo caractere ‘n’.</p>
+<section id="id8">
+<h3>Parameters<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>string<span class="classifier">str</span></dt><dd><p>Uma string contendo as linhas a serem concatenadas.</p>
+</dd>
+</dl>
+</section>
+<section id="id9">
+<h3>Returns<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>str</dt><dd><p>Uma string com as linhas concatenadas e separadas por ‘n’.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main_multitela.Main.request_server">
+<span class="sig-name descname"><span class="pre">request_server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main_multitela.html#Main.request_server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main_multitela.Main.request_server" title="Permalink to this definition"></a></dt>
+<dd><p>Função responsável por enviar uma solicitação para o servidor e retornar a resposta.</p>
+<section id="id10">
+<h3>Parameters<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>request<span class="classifier">str</span></dt><dd><p>Uma string que contém o método e os parâmetros da solicitação.</p>
+</dd>
+</dl>
+</section>
+<section id="id11">
+<h3>Returns<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>list</dt><dd><p>Uma lista que contém os resultados da solicitação. A primeira posição é um booleano que indica se a 
+solicitação foi bem sucedida ou não. A segunda posição pode conter uma string com informações adicionais 
+dependendo da função do banco.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main_multitela.Main.sorteiaNum">
+<span class="sig-name descname"><span class="pre">sorteiaNum</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/main_multitela.html#Main.sorteiaNum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main_multitela.Main.sorteiaNum" title="Permalink to this definition"></a></dt>
+<dd><p>Função para sortear numero aleatorio entre 100 e 1000 para as contas.</p>
+<section id="id12">
+<h3>Parameters<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h3>
+<blockquote>
+<div><dl class="simple">
+<dt>num<span class="classifier">int</span></dt><dd><p>Variável representa um número que será sorteado.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>Return:</dt><dd><p>Número que foi sorteado.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="main_multitela.Ui_Main">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">main_multitela.</span></span><span class="sig-name descname"><span class="pre">Ui_Main</span></span><a class="reference internal" href="_modules/main_multitela.html#Ui_Main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main_multitela.Ui_Main" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QWidget</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="main_multitela.Ui_Main.setupUi">
+<span class="sig-name descname"><span class="pre">setupUi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Main</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main_multitela.html#Ui_Main.setupUi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main_multitela.Ui_Main.setupUi" title="Permalink to this definition"></a></dt>
+<dd><p>Define a aparência e a organização da interface gráfica.</p>
+<section id="args">
+<h2>Args<a class="headerlink" href="#args" title="Permalink to this heading"></a></h2>
+<blockquote>
+<div><dl class="simple">
+<dt>Main<span class="classifier">QtWidgets.QWidget </span></dt><dd><p>Widget principal que representa a janela da aplicação.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>None</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="banco_mysql.html" class="btn btn-neutral float-left" title="banco_mysql module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="page_cadastro.html" class="btn btn-neutral float-right" title="page_cadastro module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Carlos Henrique, Eduardo de Sousa.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

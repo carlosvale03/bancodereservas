@@ -12,6 +12,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class Page_depositar(object):
+    """
+    Essa é uma classe para a pagina de deposito
+    """
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(522, 377)

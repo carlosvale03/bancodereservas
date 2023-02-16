@@ -12,6 +12,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class Ui_login(object):
+    """
+    Essa é uma classe para a pagina de login
+    """
     def setupUi(self, login):
         login.setObjectName("login")
         login.resize(591, 526)

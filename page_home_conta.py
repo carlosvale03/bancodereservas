@@ -12,14 +12,21 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class Page_home_conta(object):
+    """
+    Essa é uma classe para a pagina de Home da conta
+    """
     def setupUi(self, MainWindow):
+        # Configurar a janela principal
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(701, 393)
         MainWindow.setMinimumSize(QtCore.QSize(701, 393))
         MainWindow.setMaximumSize(QtCore.QSize(701, 393))
         MainWindow.setStyleSheet("background-color: rgb(221, 221, 221);")
+        # Criar um widget central para a janela
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
+
+        # Criar botão para depósito
         self.btn_depositar = QtWidgets.QPushButton(self.centralwidget)
         self.btn_depositar.setGeometry(QtCore.QRect(20, 230, 91, 31))
         font = QtGui.QFont()
@@ -37,6 +44,8 @@ class Page_home_conta(object):
 "    color: rgb(0, 0, 0);\n"
 "}")
         self.btn_depositar.setObjectName("btn_depositar")
+
+        # Criar botão para saque
         self.btn_sacar = QtWidgets.QPushButton(self.centralwidget)
         self.btn_sacar.setGeometry(QtCore.QRect(160, 230, 91, 31))
         font = QtGui.QFont()
@@ -54,6 +63,8 @@ class Page_home_conta(object):
 "    color: rgb(0, 0, 0);\n"
 "}")
         self.btn_sacar.setObjectName("btn_sacar")
+
+        # Criar botão para transferencia
         self.btn_transferencia = QtWidgets.QPushButton(self.centralwidget)
         self.btn_transferencia.setGeometry(QtCore.QRect(300, 230, 101, 31))
         font = QtGui.QFont()
@@ -71,6 +82,8 @@ class Page_home_conta(object):
 "    color: rgb(0, 0, 0);\n"
 "}")
         self.btn_transferencia.setObjectName("btn_transferencia")
+
+        # Criar botão para historico
         self.btn_historico = QtWidgets.QPushButton(self.centralwidget)
         self.btn_historico.setGeometry(QtCore.QRect(450, 230, 91, 31))
         font = QtGui.QFont()
@@ -88,6 +101,8 @@ class Page_home_conta(object):
 "    color: rgb(0, 0, 0);\n"
 "}")
         self.btn_historico.setObjectName("btn_historico")
+
+        # Criar botão para excluir conta
         self.btn_excluir = QtWidgets.QPushButton(self.centralwidget)
         self.btn_excluir.setGeometry(QtCore.QRect(590, 230, 91, 31))
         font = QtGui.QFont()
@@ -105,6 +120,8 @@ class Page_home_conta(object):
 "    color: rgb(0, 0, 0);\n"
 "}")
         self.btn_excluir.setObjectName("btn_excluir")
+
+        # Criar botão para sair
         self.btn_sair = QtWidgets.QPushButton(self.centralwidget)
         self.btn_sair.setGeometry(QtCore.QRect(310, 330, 81, 23))
         self.btn_sair.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))

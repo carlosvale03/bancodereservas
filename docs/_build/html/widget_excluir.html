@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>widget_excluir module &mdash; banco de reservas 1.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="widget_historico module" href="widget_historico.html" />
+    <link rel="prev" title="widget_depositar module" href="widget_depositar.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            banco de reservas
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">bancodereservas</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="banco_mysql.html">banco_mysql module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main_multitela.html">main_multitela module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="page_cadastro.html">page_cadastro module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="page_home_conta.html">page_home_conta module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="servidor_cliente.html">servidor_cliente module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="servidor_multthread.html">servidor_multthread module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="widget_confirma_excluir.html">widget_confirma_excluir module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="widget_depositar.html">widget_depositar module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">widget_excluir module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#widget_excluir.Page_excluir"><code class="docutils literal notranslate"><span class="pre">Page_excluir</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#widget_excluir.Page_excluir.retranslateUi"><code class="docutils literal notranslate"><span class="pre">Page_excluir.retranslateUi()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#widget_excluir.Page_excluir.setupUi"><code class="docutils literal notranslate"><span class="pre">Page_excluir.setupUi()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="widget_historico.html">widget_historico module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="widget_login.html">widget_login module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="widget_sacar.html">widget_sacar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="widget_transferir.html">widget_transferir module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">banco de reservas</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">bancodereservas</a></li>
+      <li class="breadcrumb-item active">widget_excluir module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/widget_excluir.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-widget_excluir">
+<span id="widget-excluir-module"></span><h1>widget_excluir module<a class="headerlink" href="#module-widget_excluir" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="widget_excluir.Page_excluir">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">widget_excluir.</span></span><span class="sig-name descname"><span class="pre">Page_excluir</span></span><a class="reference internal" href="_modules/widget_excluir.html#Page_excluir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#widget_excluir.Page_excluir" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Essa é uma classe para a pagina de excluir conta</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="widget_excluir.Page_excluir.retranslateUi">
+<span class="sig-name descname"><span class="pre">retranslateUi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Form</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/widget_excluir.html#Page_excluir.retranslateUi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#widget_excluir.Page_excluir.retranslateUi" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="widget_excluir.Page_excluir.setupUi">
+<span class="sig-name descname"><span class="pre">setupUi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Form</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/widget_excluir.html#Page_excluir.setupUi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#widget_excluir.Page_excluir.setupUi" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="widget_depositar.html" class="btn btn-neutral float-left" title="widget_depositar module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="widget_historico.html" class="btn btn-neutral float-right" title="widget_historico module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Carlos Henrique, Eduardo de Sousa.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
